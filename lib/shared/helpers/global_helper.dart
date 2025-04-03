@@ -1,0 +1,76 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertest/modules/not_found/pages/page_not_found.dart';
+import '../routes/app_routes.dart';
+
+class GlobalHelper {
+  static navigateToPageRemove(BuildContext context, String routeName) {
+    final route = AppRoutes.routes[routeName];
+    final page = (route != null) ? route.call(context) : const PageNotFound();
+    Navigator.pushAndRemoveUntil(
+      context,
+      PageRouteBuilder(
+        fullscreenDialog: true,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = const Offset(1.0, 0.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final offsetAnimation = animation.drive(tween);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 100),
+        pageBuilder: (context, animation, _) => FadeTransition(
+          opacity: animation,
+          child: page,
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
+  static Route navigationFadeIn(BuildContext context, Widget page) {
+    return PageRouteBuilder(
+      fullscreenDialog: true,
+      reverseTransitionDuration: const Duration(milliseconds: 100),
+      transitionDuration: const Duration(milliseconds: 100),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: page,
+        );
+      },
+    );
+  }
+
+  // static var logger =
+  //     Logger(printer: PrettyPrinter(methodCount: 0, printEmojis: false));
+
+  static GlobalKey genKey() {
+    GlobalKey key = GlobalKey();
+    return key;
+  }
+
+  static String device = (Platform.isAndroid) ? "android" : "ios";
+
+  static dismissKeyboard(BuildContext context) {
+    FocusScope.of(context).unfocus();
+  }
+
+  static String regexForNames() {
+    return r'[A-Za-zÁÉÍÓÚáéíóúÜüÑñ ]';
+  }
+
+  static String? validateTextForm(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'El campo no puede estar vacio';
+    }
+    return null;
+  }
+}
