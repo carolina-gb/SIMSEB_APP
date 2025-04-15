@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/modules/Login/page/login_page.dart';
+import 'package:fluttertest/modules/home/page/home.dart';
 import 'package:fluttertest/modules/not_found/pages/page_not_found.dart';
 import 'package:fluttertest/modules/splash/page/splash_screen.dart';
 
@@ -8,8 +9,8 @@ class AppRoutes {
 
   static Map<String, Widget Function(BuildContext)> routes = {
     '/splash': (_) => const SplashPage(),
-    // '/loginPage': (_) => const LoginPage(),
-    // '/home': (_) => const HomePage(),
+    '/loginPage': (_) => const LoginPage(),
+    '/home': (_) => const HomePage(),
   };
   
   static get keyPage => null;

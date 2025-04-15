@@ -58,7 +58,6 @@ class _MainLayoutState extends State<MainLayout> {
   ScrollController _scrollController = ScrollController();
   bool alertModalBool = true;
 
-  // final keyModalProfile = GlobalHelper.genKey();
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -207,7 +206,7 @@ class _MainLayoutState extends State<MainLayout> {
                           onTap: () => _modalSessionClose(),
                         ),
                   toolbarHeight: widget.haveLogoCenter
-                      ? size.height * 0.2
+                      ? size.height * 0.15
                       : widget.isHomePage! || widget.isMenuPage!
                           ? widget.subtitle != null
                               ? size.height * 0.1
@@ -256,22 +255,6 @@ class _MainLayoutState extends State<MainLayout> {
                       ],
                     ),
                   ),
-                  // flexibleSpace: Stack(
-                  //     fit: StackFit.expand,
-                  //     clipBehavior: Clip.none,
-                  //     alignment: Alignment.center,
-                  //     children: [
-                  //       Visibility(
-                  //         visible: widget.haveLogoCenter,
-                  //         child: Positioned(
-                  //             top: size.height * 0.17,
-                  //             child: Padding(
-                  //               padding: EdgeInsets.symmetric(
-                  //                   horizontal: size.width * 0.32),
-                  //               child: drawerWidgetLogo(context),
-                  //             )),
-                  //       ),
-                  //     ])
                 ),
                 SliverToBoxAdapter(
                   child: FadeIn(
@@ -282,23 +265,6 @@ class _MainLayoutState extends State<MainLayout> {
                     ),
                   ),
                 ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  fillOverscroll: false,
-                  child: Stack(children: [
-                    Positioned(
-                      bottom: -50,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: size.width * 0.30,
-                          left: size.width * 0.05,
-                          right: size.width * 0.05,
-                        ),
-                        child: Text('data'),
-                      ),
-                    ),
-                  ]),
-                )
               ],
             ),
             if (widget.requiredStack) const PageModal(),

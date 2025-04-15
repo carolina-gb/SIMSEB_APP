@@ -25,10 +25,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return const MainLayout(
-        title: 'Inicie Sesión para continuar',
-        backPageView: false,
-        requiredStack: true,
-        isLoginPage: true,
+        backPageView: true,
+        requiredStack: false,
+        nameInterceptor: 'home',
+        isHomePage: true,
         child: Text('data'));
   }
 }

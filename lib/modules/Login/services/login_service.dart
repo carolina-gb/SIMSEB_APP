@@ -35,29 +35,29 @@ class LoginService {
     }
   }
 
-  Future<GeneralResponse<UserInformationResponse>> userInformation(
-      BuildContext context) async {
-    String url = '/users/me';
+  // Future<GeneralResponse<UserInformationResponse>> userInformation(
+  //     BuildContext context) async {
+  //   String url = '/users/me';
 
-    try {
-      GeneralResponse resp = await interceptorHttp
-          .request(context, "GET", url, null, showLoading: true);
-      UserInformationResponse? userInformationResponse;
-      if (!resp.error) {
-        userInformationResponse =
-            userInformationResponseFromJson(jsonEncode(resp.data));
-      }
+  //   try {
+  //     GeneralResponse resp = await interceptorHttp
+  //         .request(context, "GET", url, null, showLoading: true);
+  //     UserInformationResponse? userInformationResponse;
+  //     if (!resp.error) {
+  //       userInformationResponse =
+  //           userInformationResponseFromJson(jsonEncode(resp.data));
+  //     }
 
-      return GeneralResponse(
-          message: resp.message,
-          error: resp.error,
-          data: userInformationResponse);
-    } catch (e) {
-      // GlobalHelper.logger.e('metodo userInformation $e');
-      return GeneralResponse(
-        message: "Error al confirmar el correo",
-        error: true,
-      );
-    }
-  }
+  //     return GeneralResponse(
+  //         message: resp.message,
+  //         error: resp.error,
+  //         data: userInformationResponse);
+  //   } catch (e) {
+  //     // GlobalHelper.logger.e('metodo userInformation $e');
+  //     return GeneralResponse(
+  //       message: "Error al confirmar el correo",
+  //       error: true,
+  //     );
+  //   }
+  // }
 }

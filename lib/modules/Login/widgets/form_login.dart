@@ -47,17 +47,17 @@ class _FormLoginPageState extends State<FormLoginPage> {
       if (!response.error) {
         // log('Logeado');
 
-        final userInformationResponse =
+        // final userInformationResponse =
             // ignore: use_build_context_synchronously
-            await loginService.userInformation(context);
+            // await loginService.userInformation(context);
 
-        if (!userInformationResponse.error) {
-          fp.setRegisterUserName(
-              '${userInformationResponse.data?.name ?? ''} ${userInformationResponse.data?.lastName ?? ''}');
-          fp.setRegisterEmail(userInformationResponse.data?.email ?? '');
+        // if (!userInformationResponse.error) {
+          // fp.setRegisterUserName(
+          //     '${userInformationResponse.data?.name ?? ''} ${userInformationResponse.data?.lastName ?? ''}');
+          // fp.setRegisterEmail(userInformationResponse.data?.email ?? '');
 
-          GlobalHelper.navigateToPageRemove(context, '/home');
-        }
+        //   GlobalHelper.navigateToPageRemove(context, '/home');
+        // }
       }
     } else {
       final keylogin = GlobalHelper.genKey();
