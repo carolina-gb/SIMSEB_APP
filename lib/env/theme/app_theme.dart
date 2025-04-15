@@ -29,7 +29,7 @@ class AppTheme {
   //icons
   static const String logoIcon = "assets/sun_logo.png";
   // static const String logoIconLoading = "assets/promarisco_logo_loading.svg";
-  // static const String icon404Path = "assets/404.svg";
+  static const String icon404Path = "assets/barrio_not_found.png";
   // static const String iconCautionPath = "assets/caution.svg";
 
   ThemeData theme() {
