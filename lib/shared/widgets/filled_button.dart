@@ -19,8 +19,8 @@ class FilledButtonWidget extends StatefulWidget {
     this.color,
     required this.text,
     this.width = double.infinity,
-    this.height = 20,
-    this.borderRadius = 5,
+    this.height = 40,
+    this.borderRadius = 0,
     this.textButtonColor,
     this.fontWeight = FontWeight.w400,
     this.fontSize,
@@ -34,9 +34,13 @@ class FilledButtonWidget extends StatefulWidget {
 class _FilledButtonWidgetState extends State<FilledButtonWidget> {
   @override
   Widget build(BuildContext context) {
-    return  FilledButton(
-      style: const ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(AppTheme.positive)),
+    return FilledButton(
+      style: ButtonStyle(
+        minimumSize:
+            WidgetStateProperty.all<Size>(Size(widget.width!, widget.height!)),
+        backgroundColor: const WidgetStatePropertyAll(AppTheme.primaryDarkest),
+        shape: const WidgetStatePropertyAll(LinearBorder.none)
+      ),
       onPressed: widget.onPressed,
       child: Text(widget.text,
           style: TextStyle(

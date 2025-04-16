@@ -115,60 +115,52 @@ class TextFormFieldWidget extends StatelessWidget {
       textAlign: textAlign,
       keyboardType: keyboardType,
       decoration: InputDecoration(
-          errorStyle:
-              const TextStyle(color: AppTheme.highlightMedium, fontSize: 13),
-          filled: true,
-          fillColor: fillColor,
-          hintText: hintText,
-          hintStyle: TextStyle(
-              color: hintColor ?? AppTheme.textTitleForm,
-              fontSize: 13,
-              fontFamily: fontFamily),
-          prefixIcon: prefixIcon ??
-              (hintIcon != null
-                  ? Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(hintIcon, color: AppTheme.primaryDarkest),
-                      ],
-                    )
-                  : null),
-          suffixIcon: suffixIcon,
-          alignLabelWithHint: true,
-          isCollapsed: false,
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: horizontalPadding, vertical: verticalPadding),
-          constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeigth),
-          border: OutlineInputBorder(
-            borderSide: borderSide ??
-                BorderSide(width: borderWith!, color: colorBorder!),
-            borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: borderSide ??
-                BorderSide(
-                    width: borderWith!,
-                    color: controller!.text.isNotEmpty
-                        ? AppTheme.positiveMedium
-                        : colorBorder!),
-            borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: borderSide ??
-                BorderSide(width: borderWith!, color: colorBorder!),
-            borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: borderSide ??
-                BorderSide(width: borderWith!, color: AppTheme.highlightMedium),
-            borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: borderSide ??
-                BorderSide(width: borderWith!, color: AppTheme.highlightMedium),
-            borderRadius: BorderRadius.circular(10),
-          )),
+        errorStyle:
+            const TextStyle(color: AppTheme.highlightMedium, fontSize: 13),
+        filled: true,
+        fillColor: fillColor,
+        hintText: hintText,
+        hintStyle: TextStyle(
+            color: hintColor ?? AppTheme.textTitleForm,
+            fontSize: 13,
+            fontFamily: fontFamily),
+        prefixIcon: prefixIcon ??
+            (hintIcon != null
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(hintIcon, color: AppTheme.primaryDarkest),
+                    ],
+                  )
+                : null),
+        suffixIcon: suffixIcon,
+        alignLabelWithHint: true,
+        isCollapsed: false,
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding, vertical: verticalPadding),
+        constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeigth),
+        enabledBorder: OutlineInputBorder(
+          borderSide: borderSide ??
+              BorderSide(width: borderWith!, color: colorBorder!),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: borderSide ??
+              BorderSide(width: borderWith!, color: colorBorder!),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10),
+        ),
+        // errorBorder: OutlineInputBorder(
+        //   borderSide: borderSide ??
+        //       BorderSide(width: borderWith!, color: AppTheme.highlightMedium),
+        //   borderRadius: BorderRadius.circular(borderRadius ?? 10),
+        // ),
+        // focusedErrorBorder: OutlineInputBorder(
+        //   borderSide: borderSide ??
+        //       BorderSide(width: borderWith!, color: AppTheme.highlightMedium),
+        //   borderRadius: BorderRadius.circular(10),
+        // )
+      ),
     );
   }
 }

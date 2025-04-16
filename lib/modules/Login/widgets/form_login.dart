@@ -30,7 +30,8 @@ class _FormLoginPageState extends State<FormLoginPage> {
 
   _tryLogin(FunctionalProvider fp) async {
     if (controller.loginFormIsNotEmpty()) {
-      if(controller.passwordController.text == 'admin' && controller.userController.text == 'admin'){
+      if (controller.passwordController.text == 'admin' &&
+          controller.userController.text == 'admin') {
         GlobalHelper.navigateToPageRemove(context, '/home');
       }
       final fp = Provider.of<FunctionalProvider>(context, listen: false);
@@ -48,13 +49,13 @@ class _FormLoginPageState extends State<FormLoginPage> {
         // log('Logeado');
 
         // final userInformationResponse =
-            // ignore: use_build_context_synchronously
-            // await loginService.userInformation(context);
+        // ignore: use_build_context_synchronously
+        // await loginService.userInformation(context);
 
         // if (!userInformationResponse.error) {
-          // fp.setRegisterUserName(
-          //     '${userInformationResponse.data?.name ?? ''} ${userInformationResponse.data?.lastName ?? ''}');
-          // fp.setRegisterEmail(userInformationResponse.data?.email ?? '');
+        // fp.setRegisterUserName(
+        //     '${userInformationResponse.data?.name ?? ''} ${userInformationResponse.data?.lastName ?? ''}');
+        // fp.setRegisterEmail(userInformationResponse.data?.email ?? '');
 
         //   GlobalHelper.navigateToPageRemove(context, '/home');
         // }
@@ -81,8 +82,8 @@ class _FormLoginPageState extends State<FormLoginPage> {
         controller.userController.text = userModel!.usuario!;
         controller.passwordController.text = userModel!.clave!;
       }
-      // controller.userController.text = 'ssupersu';
-      // controller.passwordController.text = 'supersu';
+      controller.userController.text = 'admin';
+      controller.passwordController.text = 'admin';
       // controller.passwordController.text = 'Supersu1+';
       setState(() {});
     });
@@ -97,76 +98,87 @@ class _FormLoginPageState extends State<FormLoginPage> {
           key: controller.formLoginController,
           child: Padding(
             padding: EdgeInsets.only(
-                top: size.height * 0.05,
+                top: size.height * 0.15,
                 left: size.height * 0.04,
                 right: size.height * 0.04,
                 bottom: size.width * 0.5),
             child: Column(
               children: [
-                Image.asset(AppTheme.logoIcon, width:  size.width * 0.4,),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: size.width * 0.07),
-                  child: const PlaceHolderWidget(
-                      placeholder: 'Usuario', fontSize: 20),
-                ),
-                TextFormFieldWidget(
-                  hintText: 'Usuario',
-                  fontSize: null,
-                  fontWeightHintText: FontWeight.w500,
-                  keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  controller: controller.userController,
-                  inputFormatters: [
-                    TextInputFormatter.withFunction((oldValue, newValue) {
-                      return newValue.copyWith(
-                        text: newValue.text
-                            .toLowerCase(), // Convertir a minúsculas
-                      );
-                    })
-                  ],
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'El campo no puede estar vacio';
-                    }
-                    return null;
-                  },
+                Image.asset(
+                  AppTheme.logoIcon,
+                  width: size.width * 0.5,
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(vertical: size.width * 0.07),
-                    child: const PlaceHolderWidget(
-                        placeholder: 'Contraseña', fontSize: 20)),
-                TextFormFieldWidget(
-                  hintText: 'Contraseña',
-                  fontSize: null,
-                  fontWeightHintText: FontWeight.w500,
-                  obscureText: controller.showPassWord,
-                  keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  controller: controller.passwordController,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r"\s")),
-                  ],
-                  suffixIcon: IconButton(
-                    icon: !controller.showPassWord
-                        ? const Icon(Icons.remove_red_eye_outlined, size: 20)
-                        : const Icon(Icons.visibility_off_outlined, size: 20),
-                    onPressed: () {
-                      setState(() {
-                        controller.showPassWord = !controller.showPassWord;
-                      });
+                  padding: EdgeInsets.only(top: size.height * 0.05),
+                  child: TextFormFieldWidget(
+                    hintText: 'Ingrese su usuario',
+                    fontSize: null,
+                    fontWeightHintText: FontWeight.w500,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    controller: controller.userController,
+                    fillColor: AppTheme.gray2,
+                    prefixIcon: const Icon(
+                      Icons.person_rounded,
+                      size: 40,
+                    ),
+                    inputFormatters: [
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        return newValue.copyWith(
+                          text: newValue.text
+                              .toLowerCase(), // Convertir a minúsculas
+                        );
+                      })
+                    ],
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'El campo no puede estar vacio';
+                      }
+                      return null;
                     },
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'El campo no puede estar vacio';
-                    }
-                    return null;
-                  },
                 ),
-                SizedBox(height: size.height * 0.05),
+                Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.03),
+                  child: TextFormFieldWidget(
+                    hintText: 'Ingrese su contraseña',
+                    fontSize: null,
+                    fillColor: AppTheme.gray2,
+                    fontWeightHintText: FontWeight.w500,
+                    obscureText: controller.showPassWord,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    controller: controller.passwordController,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.deny(RegExp(r"\s")),
+                    ],
+                    prefixIcon: const Icon(
+                      Icons.lock,
+                      size: 30,
+                    ),
+                    suffixIcon: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            controller.showPassWord = !controller.showPassWord;
+                          });
+                        },
+                        child: const Text(
+                          'SHOW',
+                          style: TextStyle(color: Colors.black),
+                        )),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'El campo no puede estar vacio';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                // SizedBox(height: size.height * 0.05),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: size.width * 0.05),
                   child: FilledButtonWidget(
+                    width: size.width * 1,
                       text: 'Iniciar Sesión',
                       onPressed: () {
                         _tryLogin(fp);
