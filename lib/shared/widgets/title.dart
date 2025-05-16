@@ -9,7 +9,7 @@ class TitleWidget extends StatelessWidget {
       required this.title,
       this.fontWeight = FontWeight.w500,
       this.mainAxisAlignment = MainAxisAlignment.start,
-      this.color = AppTheme.primaryDark,
+      this.color = AppTheme.black,
       this.sizeIcon,
       this.fontFamily});
 

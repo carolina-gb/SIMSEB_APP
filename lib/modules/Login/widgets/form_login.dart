@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
@@ -12,7 +10,6 @@ import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
-import 'package:fluttertest/shared/widgets/placeholder.dart';
 import 'package:fluttertest/shared/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -178,6 +175,7 @@ class _FormLoginPageState extends State<FormLoginPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: size.width * 0.05),
                   child: FilledButtonWidget(
+                    color: AppTheme.primaryDark,
                     width: size.width * 1,
                       text: 'Iniciar Sesión',
                       onPressed: () {

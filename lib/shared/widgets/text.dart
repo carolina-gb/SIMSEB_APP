@@ -11,32 +11,33 @@ class TextWidget extends StatelessWidget {
   final bool underline;
   final bool isLetterSpacing;
 
-  const TextWidget({
-    super.key,
-    required this.title,
-    this.color,
-    this.fontSize,
-    this.fontWeight,
-    this.textAlign,
-    this.underline = false, 
-    this.fontFamily, 
-    this.isLetterSpacing = false
-  });
+  const TextWidget(
+      {super.key,
+      required this.title,
+      this.color,
+      this.fontSize,
+      this.fontWeight,
+      this.textAlign,
+      this.underline = false,
+      this.fontFamily,
+      this.isLetterSpacing = false});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      textAlign: textAlign,
-      title,
-      style: TextStyle(
-        color: color ?? AppTheme.textTitleForm,
-        fontSize: fontSize,
-        fontFamily: fontFamily,
-        fontWeight:  fontWeight ?? FontWeight.bold,
-        decoration: underline ?  TextDecoration.underline : null,
-        decorationColor: color,
-        letterSpacing: isLetterSpacing ? 2 : null
-      )
-    );
+        overflow: TextOverflow.ellipsis,
+        softWrap: true,
+        maxLines: 3,
+        textAlign: textAlign,
+        title,
+        style: TextStyle(
+          color: color ?? AppTheme.black,
+          fontSize: fontSize,
+          fontFamily: fontFamily,
+          fontWeight: fontWeight ?? FontWeight.bold,
+          decoration: underline ? TextDecoration.underline : null,
+          decorationColor: color,
+          letterSpacing: isLetterSpacing ? 2 : null,
+        ));
   }
 }

@@ -29,6 +29,7 @@ class MainLayout extends StatefulWidget {
   final bool? haveFooterLogo;
   final bool? isRegister;
   final void Function()? actionToBack;
+  final bool isScrolleabe;
 
   const MainLayout({
     super.key,
@@ -48,6 +49,7 @@ class MainLayout extends StatefulWidget {
     this.isMessageWelcome = true,
     this.isVerificationModule = false,
     this.isRegister = false,
+    required this.isScrolleabe,
   });
 
   @override
@@ -75,10 +77,7 @@ class _MainLayoutState extends State<MainLayout> {
     super.dispose();
   }
 
-  Future<bool> _backButton(
-    bool button,
-    RouteInfo info
-  ) async {
+  Future<bool> _backButton(bool button, RouteInfo info) async {
     if (mounted) {
       final fp = Provider.of<FunctionalProvider>(context, listen: false);
       if (widget.nameInterceptor == null) {
@@ -174,7 +173,7 @@ class _MainLayoutState extends State<MainLayout> {
           children: [
             CustomScrollView(
               controller: _scrollController,
-              physics: widget.isLoginPage
+              physics: widget.isScrolleabe
                   ? const NeverScrollableScrollPhysics()
                   : const ClampingScrollPhysics(),
               slivers: [

@@ -31,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       backPageView: false ,
       requiredStack: true ,
       isLoginPage: true,
+      isScrolleabe: true,
       child: FormLoginPage());
   }
 }

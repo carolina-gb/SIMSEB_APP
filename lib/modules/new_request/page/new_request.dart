@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertest/modules/home/widgets/home_widget.dart';
+import 'package:fluttertest/modules/new_request/new_request_form.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/main_layout.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class NewRequestPage extends StatefulWidget {
+  const NewRequestPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<NewRequestPage> createState() => _NewRequestPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NewRequestPageState extends State<NewRequestPage> {
+  
   late FunctionalProvider fp;
 
-  @override
+   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         nameInterceptor: 'home',
         isHomePage: true,
         isScrolleabe: true,
-        child: HomeWidget(),
+        child: NewRequestFormWidget(),
         );
   }
 }
