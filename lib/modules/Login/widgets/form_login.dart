@@ -108,7 +108,7 @@ class _FormLoginPageState extends State<FormLoginPage> {
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.05),
                   child: TextFormFieldWidget(
-                    hintText: 'Ingrese su usuario',
+                    hintText: 'Usuario',
                     fontSize: null,
                     fontWeightHintText: FontWeight.w500,
                     keyboardType: TextInputType.name,
@@ -138,7 +138,7 @@ class _FormLoginPageState extends State<FormLoginPage> {
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.03),
                   child: TextFormFieldWidget(
-                    hintText: 'Ingrese su contraseña',
+                    hintText: 'Contraseña',
                     fontSize: null,
                     fillColor: AppTheme.gray2,
                     fontWeightHintText: FontWeight.w500,
@@ -159,10 +159,9 @@ class _FormLoginPageState extends State<FormLoginPage> {
                             controller.showPassWord = !controller.showPassWord;
                           });
                         },
-                        child: const Text(
-                          'SHOW',
-                          style: TextStyle(color: Colors.black),
-                        )),
+                        child: controller.showPassWord
+                            ? Icon(Icons.visibility)
+                            : Icon(Icons.visibility_off)),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'El campo no puede estar vacio';
@@ -173,10 +172,10 @@ class _FormLoginPageState extends State<FormLoginPage> {
                 ),
                 // SizedBox(height: size.height * 0.05),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: size.width * 0.05),
+                  padding: EdgeInsets.symmetric(vertical: size.width * 0.07),
                   child: FilledButtonWidget(
-                    color: AppTheme.primaryDark,
-                    width: size.width * 1,
+                      color: AppTheme.primaryDark,
+                      width: size.width * 1,
                       text: 'Iniciar Sesión',
                       onPressed: () {
                         _tryLogin(fp);

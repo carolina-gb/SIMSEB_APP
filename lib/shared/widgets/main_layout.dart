@@ -30,6 +30,7 @@ class MainLayout extends StatefulWidget {
   final bool? isRegister;
   final void Function()? actionToBack;
   final bool isScrolleabe;
+  final bool? showBottomNavBar;
 
   const MainLayout({
     super.key,
@@ -50,6 +51,7 @@ class MainLayout extends StatefulWidget {
     this.isVerificationModule = false,
     this.isRegister = false,
     required this.isScrolleabe,
+    this.showBottomNavBar = false,
   });
 
   @override
@@ -177,84 +179,6 @@ class _MainLayoutState extends State<MainLayout> {
                   ? const NeverScrollableScrollPhysics()
                   : const ClampingScrollPhysics(),
               slivers: [
-                // SliverAppBar(
-                //   leading: !widget.isHomePage!
-                //       ? Visibility(
-                //           visible: widget.backPageView!,
-                //           child: InkWell(
-                //             child: const Icon(Icons.arrow_back_ios_new,
-                //                 color: AppTheme.white),
-                //             onTap: () {
-                //               log(widget.keyDismiss.toString());
-                //               widget.actionToBack != null
-                //                   ? widget.actionToBack!()
-                //                   : widget.keyDismiss != null
-                //                       ? fp.dismissPage(key: widget.keyDismiss!)
-                //                       : _modalSessionClose();
-
-                //               setState(() {});
-                //             },
-                //           ),
-                //         )
-                //       : InkWell(
-                //           child: const Icon(
-                //             Icons.logout,
-                //             color: AppTheme.white,
-                //             size: 10,
-                //           ),
-                //           onTap: () => _modalSessionClose(),
-                //         ),
-                //   toolbarHeight: widget.haveLogoCenter
-                //       ? size.height * 0.15
-                //       : widget.isHomePage! || widget.isMenuPage!
-                //           ? widget.subtitle != null
-                //               ? size.height * 0.1
-                //               : size.height * 0.08
-                //           : size.height * 0.17,
-                //   snap: false,
-                //   pinned: true,
-                //   forceElevated: true,
-                //   automaticallyImplyLeading: false,
-                //   floating: false,
-                //   elevation: 0,
-                //   shape: const RoundedRectangleBorder(
-                //       borderRadius:
-                //           BorderRadius.vertical(bottom: Radius.circular(0))),
-                //   backgroundColor: AppTheme.positiveMedium,
-                //   centerTitle: true,
-                //   title: Padding(
-                //     padding: const EdgeInsets.only(bottom: 10),
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Text.rich(
-                //           TextSpan(text: widget.title),
-                //           style: TextStyle(
-                //               color: AppTheme.white,
-                //               fontSize: widget.isHomePage!
-                //                   ? 24
-                //                   : widget.isMenuPage!
-                //                       ? 24
-                //                       : 18),
-                //         ),
-                //         Visibility(
-                //           visible: widget.subtitle != null,
-                //           child: Column(children: [
-                //             const SizedBox(
-                //               height: 20,
-                //             ),
-                //             Text.rich(
-                //               TextSpan(text: widget.subtitle),
-                //               style: const TextStyle(
-                //                   color: AppTheme.white, fontSize: 15),
-                //             ),
-                //           ]),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 SliverToBoxAdapter(
                   child: FadeIn(
                     delay: const Duration(milliseconds: 500),
@@ -264,6 +188,45 @@ class _MainLayoutState extends State<MainLayout> {
                     ),
                   ),
                 ),
+                SliverFillRemaining(
+                  child: Visibility(
+                      visible: widget.showBottomNavBar!,
+                      child: BottomNavigationBar(
+                        currentIndex:
+                            0, // puedes hacerlo dinámico si tienes control de navegación
+                        onTap: (index) {
+                          // Aquí navegas según el índice
+                          switch (index) {
+                            case 0:
+                              Navigator.pushReplacementNamed(context, '/home');
+                              break;
+                            // case 1:
+                            //   Navigator.pushReplacementNamed(
+                            //       context, '/emergency');
+                            //   break;
+                            // case 2:
+                            //   Navigator.pushReplacementNamed(context, '/profile');
+                            //   break;
+                          }
+                        },
+                        selectedItemColor: AppTheme.primaryDark,
+                        unselectedItemColor: Colors.grey,
+                        items: const [
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.home_outlined),
+                            label: 'Inicio',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.warning_amber_outlined),
+                            label: 'Mis solicitudes',
+                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.person_outline),
+                          //   label: 'Perfil',
+                          // ),
+                        ],
+                      )),
+                )
               ],
             ),
             if (widget.requiredStack) const PageModal(),

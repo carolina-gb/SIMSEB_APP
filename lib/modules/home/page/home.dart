@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
         nameInterceptor: 'home',
         isHomePage: true,
         isScrolleabe: true,
+        showBottomNavBar: true,
         child: HomeWidget(),
         );
   }
