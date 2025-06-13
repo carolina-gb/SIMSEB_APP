@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
@@ -200,10 +198,10 @@ class _MainLayoutState extends State<MainLayout> {
                             case 0:
                               Navigator.pushReplacementNamed(context, '/home');
                               break;
-                            // case 1:
-                            //   Navigator.pushReplacementNamed(
-                            //       context, '/emergency');
-                            //   break;
+                            case 1:
+                              Navigator.pushReplacementNamed(
+                                  context, '/myRequest');
+                              break;
                             // case 2:
                             //   Navigator.pushReplacementNamed(context, '/profile');
                             //   break;

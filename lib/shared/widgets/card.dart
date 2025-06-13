@@ -23,10 +23,13 @@ class CardWidget extends StatefulWidget {
 class _CardWidgetState extends State<CardWidget> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Card(
         clipBehavior: Clip.hardEdge,
-        color: Colors.green[100],
-        margin: const EdgeInsets.only(bottom: 16),
+        elevation: 10,
+        shadowColor: AppTheme.gray1,
+        color: AppTheme.white,
+        margin: const EdgeInsets.only(bottom: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: ListTile(
           contentPadding:
@@ -36,32 +39,39 @@ class _CardWidgetState extends State<CardWidget> {
               const TitleWidget(
                 title: 'Solicitud: ',
                 fontWeight: FontWeight.bold,
-                color: AppTheme.primaryDarkest,
+                color: AppTheme.black,
               ),
-              TitleWidget(title: widget.numberRequest),
+              TitleWidget(
+                title: widget.numberRequest,
+                fontWeight: FontWeight.bold,
+              ),
             ],
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextWidget(title: 'Descripcion:           '),
-                  Expanded(child: TextWidget(title: widget.detail))
-                ],
+              Padding(
+                padding:  EdgeInsets.symmetric(vertical:  size.height * 0.01),
+                child: TextWidget(
+                  title: 'Descipción: ${widget.detail}',
+                  color: AppTheme.black,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-              Row(
-                children: [
-                  const TextWidget(title: 'Tipo:                        '),
-                  TextWidget(title: widget.type)
-                ],
+              TextWidget(
+                title: 'Tipo: ${widget.type}',
+                color: AppTheme.black,
+                fontWeight: FontWeight.normal,
               ),
-              Row(
-                children: [
-                  const TextWidget(title: 'Estado:                    '),
-                  TextWidget(title: widget.status)
-                ],
+              Padding(
+                padding: EdgeInsets.only(top:  size.height * 0.02),
+                child: Row(
+                  mainAxisAlignment:  MainAxisAlignment.spaceAround,
+                  children: [
+                    const TextWidget(title: 'Estado'),
+                    TextWidget(title: widget.status)
+                  ],
+                ),
               ),
             ],
           ),

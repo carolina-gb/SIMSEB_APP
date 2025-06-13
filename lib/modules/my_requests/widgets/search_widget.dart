@@ -14,19 +14,23 @@ class _SearchWidgetState extends State<SearchWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Container(
-        decoration: BoxDecoration(
-            color: AppTheme.white,
-            border: Border.all(),
-            borderRadius: const BorderRadius.all(Radius.circular(30))),
+        decoration: const BoxDecoration(
+            color: AppTheme.gray1,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: TextFormField(
+          textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
               prefixIcon: IconButton(
-                icon: const Icon(Icons.search),
+                icon: const Icon(
+                  Icons.search,
+                  size: 35,
+                ),
                 onPressed: () {
                   print('hola');
                 },
               ),
-              enabledBorder: InputBorder.none),
+              enabledBorder: InputBorder.none,
+              hintText: 'Buscar...'),
         ),
       ),
     );

@@ -39,7 +39,8 @@ class _EmergencyInformationWidgetState
                     title:
                         "Presiona el botón de abajo y la ayuda te llegará pronto.",
                     fontSize: size.width * 0.04,
-                    color: AppTheme.gray1,
+                    color: AppTheme.black,
+                    fontWeight: FontWeight.w400,
                   ),
                 )
               ],
