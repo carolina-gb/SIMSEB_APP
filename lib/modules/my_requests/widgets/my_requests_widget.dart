@@ -30,50 +30,49 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(
-        top: size.height * 0.02,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.feed_outlined, size: 35),
-              SizedBox(
-                width: size.width * 0.04,
-              ),
-              const TitleWidget(
-                title: 'Mis solicitudes',
-                fontSize: 35,
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
-            child: const SearchWidget(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: size.height * 0.05),
-            child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                clipBehavior: Clip.hardEdge,
-                itemCount: requests.length,
-                itemBuilder: (context, index) {
-                  final request = requests[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: CardWidget(
-                        numberRequest: request['numberRequest'],
-                        detail: request['detail'],
-                        type: request['type'],
-                        status: request['status']),
-                  );
-                }),
-          ),
-        ],
+    return Container(
+      color: AppTheme.white,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: size.height * 0.02,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     const Icon(Icons.feed_outlined, size: 35),
+            //     SizedBox(
+            //       width: size.width * 0.04,
+            //     ),
+            //   ],
+            // ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
+              child: const SearchWidget(),
+            ),
+            SizedBox(
+              height: size.height * 0.75,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  clipBehavior: Clip.hardEdge,
+                  itemCount: requests.length,
+                  itemBuilder: (context, index) {
+                    final request = requests[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: CardWidget(
+                          numberRequest: request['numberRequest'],
+                          detail: request['detail'],
+                          type: request['type'],
+                          status: request['status']),
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }

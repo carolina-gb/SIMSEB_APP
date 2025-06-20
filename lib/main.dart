@@ -33,10 +33,6 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [HeroController()],
         routes: AppRoutes.routes,
         onGenerateRoute: AppRoutes.onGenerateRoute,
-        // locale: const Locale('es'),
-        // supportedLocales: const [
-        //   Locale('es'),
-        // ],
       ),
     );
   }

@@ -13,8 +13,8 @@ class AppRoutes {
     '/splash': (_) => const SplashPage(),
     '/loginPage': (_) => const LoginPage(),
     '/home': (_) => const HomePage(),
-    '/newRequest': (_) => const NewRequestPage(),
-    '/myRequest': (_) => const MyRequestsPage()
+    // '/newRequest': (_) => const NewRequestPage(),
+    // '/myRequest': (_) => const MyRequestsPage()
   };
   
   static get keyPage => null;

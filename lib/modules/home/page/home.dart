@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/modules/home/widgets/home_widget.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
-import 'package:fluttertest/shared/widgets/main_layout.dart';
+import 'package:fluttertest/shared/widgets/provider_layout.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,14 +19,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fp = Provider.of<FunctionalProvider>(context, listen: false);
-      fp.clearAllPages();
+      // fp.clearAllPages();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return const MainLayout(
-        backPageView: true,
+    return const ProviderLayout(
         requiredStack: false,
         nameInterceptor: 'home',
         isHomePage: true,

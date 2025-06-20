@@ -3,6 +3,7 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
 import 'package:fluttertest/modules/Login/page/login_page.dart';
+import 'package:fluttertest/modules/my_requests/page/my_request.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/providers/navegation_verify_provider.dart';
@@ -11,11 +12,10 @@ import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/page_modal.dart';
 import 'package:provider/provider.dart';
 
-class MainLayout extends StatefulWidget {
+class Layout extends StatefulWidget {
   final Widget child;
   final String nameInterceptor;
   final bool backPageView;
-  final bool requiredStack;
   final bool haveLogoCenter;
   final GlobalKey<State<StatefulWidget>>? keyDismiss;
   final String title;
@@ -31,12 +31,11 @@ class MainLayout extends StatefulWidget {
   final bool isScrolleabe;
   final bool showBottomNavBar;
 
-  const MainLayout({
+  const Layout({
     super.key,
     required this.child,
     required this.nameInterceptor,
     this.keyDismiss,
-    this.requiredStack = true,
     this.haveLogoCenter = true,
     this.backPageView = false,
     this.title = '',
@@ -54,10 +53,10 @@ class MainLayout extends StatefulWidget {
   });
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  State<Layout> createState() => _LayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class _LayoutState extends State<Layout> {
   ScrollController _scrollController = ScrollController();
   bool alertModalBool = true;
 
@@ -89,28 +88,28 @@ class _MainLayoutState extends State<MainLayout> {
         null;
         return true;
       } else {
-        if (widget.requiredStack) {
-          if (button) return false;
-          if (fp.pages.isNotEmpty) {
-            if (widget.keyDismiss != null) {
-              fp.dismissPage(key: widget.keyDismiss!);
-              return true;
-            } else {
-              fp.dismissLastPage();
-            }
-          } else {
-            widget.isHomePage
-                ? _modalSessionClose()
-                : widget.haveLogoCenter
-                    ? Navigator.pushAndRemoveUntil(
-                        context,
-                        GlobalHelper.navigationFadeIn(
-                            context, const LoginPage()),
-                        (route) => false)
-                    : _modalSessionClose();
-            return true;
-          }
-        }
+        // if (widget.requiredStack) {
+        //   if (button) return false;
+        //   if (fp.pages.isNotEmpty) {
+        //     if (widget.keyDismiss != null) {
+        //       fp.dismissPage(key: widget.keyDismiss!);
+        //       return true;
+        //     } else {
+        //       fp.dismissLastPage();
+        //     }
+        //   } else {
+        //     widget.isHomePage
+        //         ? _modalSessionClose()
+        //         : widget.haveLogoCenter
+        //             ? Navigator.pushAndRemoveUntil(
+        //                 context,
+        //                 GlobalHelper.navigationFadeIn(
+        //                     context, const LoginPage()),
+        //                 (route) => false)
+        //             : _modalSessionClose();
+        //     return true;
+        //   }
+        // }
 
         if (!button) {
           if (widget.keyDismiss != null) {
@@ -165,65 +164,65 @@ class _MainLayoutState extends State<MainLayout> {
     final fp = Provider.of<FunctionalProvider>(context, listen: false);
     final nvp = Provider.of<NavegationVerifyProvider>(context, listen: true);
 
-    return SafeArea(
-      maintainBottomViewPadding: true,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: AppTheme.white,
-        body: Stack(
-          children: [
-            CustomScrollView(
-              controller: _scrollController,
-              physics: widget.isScrolleabe
-                  ? const NeverScrollableScrollPhysics()
-                  : const ClampingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: FadeIn(
-                    delay: const Duration(milliseconds: 500),
-                    child: PopScope(
-                      canPop: false,
-                      child: widget.child,
-                    ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: AppTheme.white,
+      body: Stack(
+        children: [
+          CustomScrollView(
+            controller: _scrollController,
+            physics: widget.isScrolleabe
+                ? const NeverScrollableScrollPhysics()
+                : const ClampingScrollPhysics(),
+            slivers: [
+              SliverFillRemaining(
+                child: FadeIn(
+                  delay: const Duration(milliseconds: 500),
+                  child: PopScope(
+                    canPop: false,
+                    child: widget.child,
                   ),
                 ),
-              ],
-            ),
-            if (widget.showBottomNavBar)
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: BottomNavigationBar(
-                  currentIndex: 0,
-                  onTap: (index) {
-                    switch (index) {
-                      case 0:
-                        Navigator.pushReplacementNamed(context, '/home');
-                        break;
-                      case 1:
-                        Navigator.pushReplacementNamed(context, '/myRequest');
-                        break;
-                    }
-                  },
-                  selectedItemColor: AppTheme.primaryDark,
-                  unselectedItemColor: Colors.grey,
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home_outlined),
-                      label: 'Inicio',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.warning_amber_outlined),
-                      label: 'Mis solicitudes',
-                    ),
-                  ],
-                ),
               ),
-            if (widget.requiredStack) const PageModal(),
-            if (widget.requiredStack) const AlertModal(),
-          ],
-        ),
+            ],
+          ),
+          if (widget.showBottomNavBar)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: BottomNavigationBar(
+                currentIndex: 0,
+                onTap: (index) {
+                      switch (index) {
+                        case 0:
+                          fp.clearAllPages();
+                          break;
+                        case 1:
+                          final MyRequestsPageKey = GlobalHelper.genKey();
+                          fp.addPage(
+                              key: MyRequestsPageKey,
+                              content: MyRequestsPage(
+                                  globalKey: MyRequestsPageKey));
+                          break;
+                      }
+                    },
+                selectedItemColor: AppTheme.primaryDark,
+                unselectedItemColor: Colors.grey,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    label: 'Inicio',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.warning_amber_outlined),
+                    label: 'Mis solicitudes',
+                  ),
+                ],
+              ),
+            ),
+          const AlertModal(),
+        ],
       ),
     );
   }
