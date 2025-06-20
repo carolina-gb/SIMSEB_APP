@@ -5,6 +5,7 @@ import 'package:fluttertest/env/theme/app_theme.dart';
 import 'package:fluttertest/modules/Login/page/login_page.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
+import 'package:fluttertest/shared/providers/navegation_verify_provider.dart';
 import 'package:fluttertest/shared/widgets/alert_modal.dart';
 import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/page_modal.dart';
@@ -12,28 +13,28 @@ import 'package:provider/provider.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;
-  final String? nameInterceptor;
-  final bool? backPageView;
+  final String nameInterceptor;
+  final bool backPageView;
   final bool requiredStack;
   final bool haveLogoCenter;
   final GlobalKey<State<StatefulWidget>>? keyDismiss;
-  final String? title;
+  final String title;
   final String? subtitle;
   final bool? isMessageWelcome;
   final bool isLoginPage;
-  final bool? isHomePage;
-  final bool? isVerificationModule;
-  final bool? isMenuPage;
-  final bool? haveFooterLogo;
-  final bool? isRegister;
+  final bool isHomePage;
+  final bool isVerificationModule;
+  final bool isMenuPage;
+  final bool haveFooterLogo;
+  final bool isRegister;
   final void Function()? actionToBack;
   final bool isScrolleabe;
-  final bool? showBottomNavBar;
+  final bool showBottomNavBar;
 
   const MainLayout({
     super.key,
     required this.child,
-    this.nameInterceptor,
+    required this.nameInterceptor,
     this.keyDismiss,
     this.requiredStack = true,
     this.haveLogoCenter = true,
@@ -80,7 +81,7 @@ class _MainLayoutState extends State<MainLayout> {
   Future<bool> _backButton(bool button, RouteInfo info) async {
     if (mounted) {
       final fp = Provider.of<FunctionalProvider>(context, listen: false);
-      if (widget.nameInterceptor == null) {
+      if (widget.nameInterceptor.isEmpty) {
         if (widget.keyDismiss == null) return false;
         if (fp.pages.isNotEmpty || (fp.pages.last.key != widget.keyDismiss)) {
           return false;
@@ -98,7 +99,7 @@ class _MainLayoutState extends State<MainLayout> {
               fp.dismissLastPage();
             }
           } else {
-            widget.isHomePage!
+            widget.isHomePage
                 ? _modalSessionClose()
                 : widget.haveLogoCenter
                     ? Navigator.pushAndRemoveUntil(
@@ -162,7 +163,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final fp = Provider.of<FunctionalProvider>(context, listen: false);
-    // final nvp = Provider.of<NavegationVerifyProvider>(context, listen: true);
+    final nvp = Provider.of<NavegationVerifyProvider>(context, listen: true);
 
     return SafeArea(
       maintainBottomViewPadding: true,
@@ -186,47 +187,39 @@ class _MainLayoutState extends State<MainLayout> {
                     ),
                   ),
                 ),
-                SliverFillRemaining(
-                  child: Visibility(
-                      visible: widget.showBottomNavBar!,
-                      child: BottomNavigationBar(
-                        currentIndex:
-                            0, // puedes hacerlo dinámico si tienes control de navegación
-                        onTap: (index) {
-                          // Aquí navegas según el índice
-                          switch (index) {
-                            case 0:
-                              Navigator.pushReplacementNamed(context, '/home');
-                              break;
-                            case 1:
-                              Navigator.pushReplacementNamed(
-                                  context, '/myRequest');
-                              break;
-                            // case 2:
-                            //   Navigator.pushReplacementNamed(context, '/profile');
-                            //   break;
-                          }
-                        },
-                        selectedItemColor: AppTheme.primaryDark,
-                        unselectedItemColor: Colors.grey,
-                        items: const [
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.home_outlined),
-                            label: 'Inicio',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.warning_amber_outlined),
-                            label: 'Mis solicitudes',
-                          ),
-                          // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.person_outline),
-                          //   label: 'Perfil',
-                          // ),
-                        ],
-                      )),
-                )
               ],
             ),
+            if (widget.showBottomNavBar)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: BottomNavigationBar(
+                  currentIndex: 0,
+                  onTap: (index) {
+                    switch (index) {
+                      case 0:
+                        Navigator.pushReplacementNamed(context, '/home');
+                        break;
+                      case 1:
+                        Navigator.pushReplacementNamed(context, '/myRequest');
+                        break;
+                    }
+                  },
+                  selectedItemColor: AppTheme.primaryDark,
+                  unselectedItemColor: Colors.grey,
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home_outlined),
+                      label: 'Inicio',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.warning_amber_outlined),
+                      label: 'Mis solicitudes',
+                    ),
+                  ],
+                ),
+              ),
             if (widget.requiredStack) const PageModal(),
             if (widget.requiredStack) const AlertModal(),
           ],

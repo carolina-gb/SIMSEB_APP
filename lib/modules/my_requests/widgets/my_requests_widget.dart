@@ -31,18 +31,20 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(top: size.height * 0.02),
+      padding: EdgeInsets.only(
+        top: size.height * 0.02,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.feed_outlined, size: 35),
+              const Icon(Icons.feed_outlined, size: 35),
               SizedBox(
                 width: size.width * 0.04,
               ),
-              TitleWidget(
+              const TitleWidget(
                 title: 'Mis solicitudes',
                 fontSize: 35,
               ),
@@ -50,32 +52,26 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
-            child: SearchWidget(),
+            child: const SearchWidget(),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical:  size.height * 0.02),
-            child: SizedBox(
-              height: size.height * 0.65,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: requests.length,
-                  itemBuilder: (context, index) {
-                    final request = requests[index];
-                    return CardWidget(
+            padding: EdgeInsets.only(bottom: size.height * 0.05),
+            child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                clipBehavior: Clip.hardEdge,
+                itemCount: requests.length,
+                itemBuilder: (context, index) {
+                  final request = requests[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CardWidget(
                         numberRequest: request['numberRequest'],
                         detail: request['detail'],
                         type: request['type'],
-                        status: request['status']);
-                  }),
-            ),
-          ),
-          FilledButtonWidget(
-            text: 'Regresar',
-            width: size.width * 0.03,
-            color: AppTheme.primaryMedium,
-            onPressed: () {
-              GlobalHelper.navigateToPageRemove(context, '/home');
-            },
+                        status: request['status']),
+                  );
+                }),
           ),
         ],
       ),

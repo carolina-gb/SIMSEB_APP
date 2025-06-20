@@ -32,6 +32,7 @@ class _NewRequestPageState extends State<NewRequestPage> {
         nameInterceptor: 'home',
         isHomePage: true,
         isScrolleabe: true,
+        showBottomNavBar: true,
         child: NewRequestFormWidget(),
         );
   }

@@ -12,12 +12,13 @@ class MyRequestsPage extends StatefulWidget {
 class _MyRequestsPageState extends State<MyRequestsPage> {
   @override
   Widget build(BuildContext context) {
-    return MainLayout(
-        backPageView: false,
+    return const MainLayout(
+        backPageView: true,
         requiredStack: false,
         nameInterceptor: 'my_request',
         isHomePage: false,
-        isScrolleabe: true,
+        isScrolleabe: false,
+        showBottomNavBar: true,
         child: MyRequestsWidget(),
         );
   }

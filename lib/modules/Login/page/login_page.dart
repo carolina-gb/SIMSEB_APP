@@ -27,11 +27,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return const MainLayout(
+      nameInterceptor: 'login',
       title: 'Inicie Sesión para continuar',
       backPageView: false ,
-      requiredStack: true ,
+      requiredStack: false ,
       isLoginPage: true,
-      isScrolleabe: true,
+      isScrolleabe: false,
+      showBottomNavBar: false,
       child: FormLoginPage());
   }
 }
