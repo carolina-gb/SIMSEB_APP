@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertest/modules/Login/models/requests/credentials_request.dart';
 import 'package:fluttertest/modules/Login/models/responses/login_response.dart';
-import 'package:fluttertest/modules/Login/models/responses/user_information_response.dart';
 import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/services/http_interceptor.dart';
 

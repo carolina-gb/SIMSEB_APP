@@ -7,7 +7,6 @@ import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text.dart';
-import 'package:fluttertest/shared/widgets/text_button.dart';
 import 'package:fluttertest/shared/widgets/title.dart';
 import 'package:provider/provider.dart';
 

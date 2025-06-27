@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
-import 'package:fluttertest/shared/widgets/alert_modal.dart';
 import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/combo_widget.dart';
 import 'package:fluttertest/shared/widgets/file_picker_widget.dart';
@@ -98,8 +97,10 @@ class _NewRequestFormWidgetState extends State<NewRequestFormWidget> {
                   fp.showAlert(
                       key: keylogin,
                       content: AlertGeneric(
-                          content: SuccessInformation(keyToClose: keylogin,
-                              message: 'Se ha enviado la solicitud'),));
+                        content: SuccessInformation(
+                            keyToClose: keylogin,
+                            message: 'Se ha enviado la solicitud'),
+                      ));
                 }),
           ),
           SizedBox(

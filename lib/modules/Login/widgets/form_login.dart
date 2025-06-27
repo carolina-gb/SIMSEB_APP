@@ -6,9 +6,7 @@ import 'package:fluttertest/modules/Login/models/requests/credentials_request.da
 import 'package:fluttertest/modules/Login/models/user_data_model.dart';
 import 'package:fluttertest/modules/Login/services/login_service.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
-import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
-import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
