@@ -25,11 +25,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const ProviderLayout(
-        requiredStack: false,
+    return const MainLayout(
+        requiredStack: true,
         nameInterceptor: 'home',
+        icon: Icons.abc,
         isHomePage: true,
-        isScrolleabe: true,
+        // isScrolleabe: true,
         showBottomNavBar: true,
         child: HomeWidget(),
         );

@@ -9,8 +9,9 @@ import 'package:fluttertest/shared/widgets/title.dart';
 class MyRequestsWidget extends StatefulWidget {
   const MyRequestsWidget({
     super.key,
+    required this.globalKey,
   });
-
+  final GlobalKey globalKey;
   @override
   State<MyRequestsWidget> createState() => _MyRequestsWidgetState();
 }
@@ -30,49 +31,46 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Container(
-      color: AppTheme.white,
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: size.height * 0.02,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     const Icon(Icons.feed_outlined, size: 35),
-            //     SizedBox(
-            //       width: size.width * 0.04,
-            //     ),
-            //   ],
-            // ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
-              child: const SearchWidget(),
-            ),
-            SizedBox(
-              height: size.height * 0.75,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  clipBehavior: Clip.hardEdge,
-                  itemCount: requests.length,
-                  itemBuilder: (context, index) {
-                    final request = requests[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: CardWidget(
-                          numberRequest: request['numberRequest'],
-                          detail: request['detail'],
-                          type: request['type'],
-                          status: request['status']),
-                    );
-                  }),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsets.only(
+        top: size.height * 0.02,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     const Icon(Icons.feed_outlined, size: 35),
+          //     SizedBox(
+          //       width: size.width * 0.04,
+          //     ),
+          //   ],
+          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+            child: const SearchWidget(),
+          ),
+          SizedBox(
+            height: size.height,
+            child: ListView.builder(
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                clipBehavior: Clip.hardEdge,
+                itemCount: requests.length,
+                itemBuilder: (context, index) {
+                  final request = requests[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CardWidget(
+                        numberRequest: request['numberRequest'],
+                        detail: request['detail'],
+                        type: request['type'],
+                        status: request['status']),
+                  );
+                }),
+          ),
+        ],
       ),
     );
   }

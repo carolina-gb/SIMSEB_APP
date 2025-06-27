@@ -340,7 +340,13 @@ class SuccessInformation extends StatelessWidget {
           color: AppTheme.positiveMedium,
           textButtonColor: AppTheme.white,
           text: 'Aceptar',
-          onPressed: onPressed,
+          onPressed: (onPressed != null)
+              ? onPressed
+              : () async {
+                  final fp =
+                      Provider.of<FunctionalProvider>(context, listen: false);
+                  fp.dismissAlert(key: keyToClose);
+                },
         ),
         SizedBox(height: size.height * 0.02),
       ],

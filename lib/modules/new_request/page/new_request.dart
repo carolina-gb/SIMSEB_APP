@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/modules/new_request/widgets/new_request_form.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
-import 'package:fluttertest/shared/widgets/layout.dart';
+// import 'package:fluttertest/shared/widgets/layout.dart';
+import 'package:fluttertest/shared/widgets/provider_layout.dart';
 import 'package:provider/provider.dart';
 
 class NewRequestPage extends StatefulWidget {
@@ -24,11 +25,14 @@ class _NewRequestPageState extends State<NewRequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return MainLayout(
       key: widget.globalKey,
       backPageView: true,
+      requiredStack: false,
+      keyDismiss: widget.globalKey,
       nameInterceptor: 'NewRequestPage',
-      isScrolleabe: false,
+      icon: Icons.feed_outlined,
+      title: "Crear Solicitud",
       showBottomNavBar: true,
       child: NewRequestFormWidget(globalKey: widget.globalKey,),
     );

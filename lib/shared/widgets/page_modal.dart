@@ -23,20 +23,13 @@ class _PageModalState extends State<PageModal> {
   @override
   Widget build(BuildContext context) {
     final fp = Provider.of<FunctionalProvider>(context);
+    inspect(fp.pages);
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
-  height: size.height,
-  width: size.width,
-  child: Stack(
-    children: fp.pages.map((e) {
-      inspect("Pages en stack: ${fp.pages.length}");
-      return Container(
-        color: Colors.white.withOpacity(0.95),
-        child: e.widget,
-      );
-    }).toList(),
-  ),
-);
+      height: size.height,
+      width: size.width,
+      child: Stack(children: fp.pages),
+    );
   }
 }

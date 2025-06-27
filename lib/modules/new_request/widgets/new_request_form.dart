@@ -26,29 +26,11 @@ class _NewRequestFormWidgetState extends State<NewRequestFormWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final fp = Provider.of<FunctionalProvider>(context, listen: false);
-    return SingleChildScrollView(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-      physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
-            child: Row(
-              children: [
-                const Icon(Icons.feed_outlined, size: 35),
-                SizedBox(
-                  width: size.width * 0.03,
-                ),
-                TitleWidget(
-                  title: 'Crear tu solicitud',
-                  fontSize: size.height * 0.03,
-                  fontWeight: FontWeight.w500,
-                  color: AppTheme.black,
-                ),
-              ],
-            ),
-          ),
           TitleWidget(
             title: 'Seleccione el tipo de denuncia a realizar:',
             fontSize: size.width * 0.04,
@@ -105,33 +87,23 @@ class _NewRequestFormWidgetState extends State<NewRequestFormWidget> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: size.width * 0.05),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FilledButtonWidget(
-                  text: 'Regresar',
-                  width: size.width * 0.03,
-                  color: AppTheme.primaryMedium,
-                  onPressed: () {
-                    fp.clearAllPages();
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: size.width * 0.1),
-                  child: FilledButtonWidget(
-                      text: 'Enviar  ',
-                      width: size.width * 0.03,
-                      color: AppTheme.primaryMedium,
-                      onPressed: () {}),
-                )
-              ],
-            ),
+          Align(
+            alignment: AlignmentDirectional.center,
+            child: FilledButtonWidget(
+                text: 'Enviar Solicitud',
+                width: size.width * 0.05,
+                color: AppTheme.primaryMedium,
+                onPressed: () {
+                  final keylogin = GlobalHelper.genKey();
+                  fp.showAlert(
+                      key: keylogin,
+                      content: AlertGeneric(
+                          content: SuccessInformation(keyToClose: keylogin,
+                              message: 'Se ha enviado la solicitud'),));
+                }),
           ),
           SizedBox(
-            height: size.height * 0.05,
+            height: size.height * 0.1,
           )
         ],
       ),

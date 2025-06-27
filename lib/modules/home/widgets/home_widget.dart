@@ -7,6 +7,7 @@ import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text.dart';
+import 'package:fluttertest/shared/widgets/text_button.dart';
 import 'package:fluttertest/shared/widgets/title.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-            horizontal: size.width * 0.05, vertical: size.height * 0.02),
+          horizontal: size.width * 0.05, vertical: size.height * 0.02),
       child: Column(
         children: [
           Row(
@@ -65,24 +66,31 @@ class _HomeWidgetState extends State<HomeWidget> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
+              GestureDetector(
+                onTap:(){
                         GlobalHelper.navigateToPageRemove(
                             context, '/loginPage');
                       },
-                      color: AppTheme.primaryMedium,
-                      icon: Icon(
+                child: Container(
+                  // color: AppTheme.primaryMedium,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppTheme.primaryMedium),
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Icon(
                         Icons.logout_sharp,
-                        size: size.width * 0.1,
-                      )),
-                  TextWidget(
-                    title: "Salir",
-                    fontSize: size.height * 0.02,
-                    color: AppTheme.primaryMedium,
-                  )
-                ],
+                        size: size.width * 0.08,
+                        color: AppTheme.white,
+                      ),
+                      SizedBox(width: 10,),
+                      TextWidget(
+                        title: "Salir",
+                        fontSize: size.height * 0.02,
+                        color: AppTheme.white,
+                      )
+                    ],
+                  ),
+                ),
               )
             ],
           ),
@@ -108,11 +116,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               textButtonColor: AppTheme.white,
               onPressed: () {
                 final newRequestPageKey = GlobalHelper.genKey();
-                // Se actualiza la llamada para pasar la configuración de la página.
                 fp.addPage(
                   key: newRequestPageKey,
-                  title: 'Nueva Solicitud',
-                  showBottomNavBar: true,
                   content: NewRequestPage(globalKey: newRequestPageKey),
                 );
               },

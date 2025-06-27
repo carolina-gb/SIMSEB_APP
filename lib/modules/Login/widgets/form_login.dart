@@ -39,10 +39,10 @@ class _FormLoginPageState extends State<FormLoginPage> {
       loginRequest.password =
           controller.passwordController.text.trim().toString();
 
-      GeneralResponse response =
-          await loginService.login(context, loginRequest);
+      // GeneralResponse response =
+      //     await loginService.login(context, loginRequest);
 
-      if (!response.error) {
+      // if (!response.error) {
         // log('Logeado');
 
         // final userInformationResponse =
@@ -56,18 +56,18 @@ class _FormLoginPageState extends State<FormLoginPage> {
 
         //   GlobalHelper.navigateToPageRemove(context, '/home');
         // }
-      }
-    } else {
-      final keylogin = GlobalHelper.genKey();
-      fp.showAlert(
-          key: keylogin,
-          content: AlertGeneric(
-              content: WarningAlert(
-            keyToClose: keylogin,
-            title: 'Campos Incompletos',
-            message:
-                'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
-          )));
+      // }
+    // } else {
+    //   final keylogin = GlobalHelper.genKey();
+    //   fp.showAlert(
+    //       key: keylogin,
+    //       content: AlertGeneric(
+    //           content: WarningAlert(
+    //         keyToClose: keylogin,
+    //         title: 'Campos Incompletos',
+    //         message:
+    //             'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
+    //       )));
     }
   }
 
@@ -81,7 +81,6 @@ class _FormLoginPageState extends State<FormLoginPage> {
       }
       controller.userController.text = 'admin';
       controller.passwordController.text = 'admin';
-      // controller.passwordController.text = 'Supersu1+';
       setState(() {});
     });
   }

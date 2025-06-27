@@ -44,13 +44,15 @@ class _FilledButtonWidgetState extends State<FilledButtonWidget> {
                 BorderRadius.all(Radius.circular(widget.borderRadius!)))),
       ),
       onPressed: widget.onPressed,
-      child: Text(widget.text,
-          style: TextStyle(
-              color: widget.textButtonColor ?? AppTheme.white,
-              fontWeight: widget.fontWeight,
-              fontFamily: widget.fontFamily,
-              fontSize: widget.fontSize ?? 20),
-          textAlign: TextAlign.center),
+      child: Text(
+        widget.text,
+        style: TextStyle(
+            color: widget.textButtonColor ?? AppTheme.white,
+            fontWeight: widget.fontWeight,
+            fontFamily: widget.fontFamily,
+            fontSize: widget.fontSize ?? 20),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
