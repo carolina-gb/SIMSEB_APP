@@ -34,7 +34,7 @@ class TextFormFieldWidget extends StatelessWidget {
       this.onFieldSubmitted,
       this.onEditingComplete,
       this.onSaved,
-      this.colorBorder = AppTheme.naturalsMedium,
+      this.colorBorder = AppTheme.textTitleForm,
       this.horizontalPadding = 10,
       this.verticalPadding = 12,
       this.fontSize = 10,
@@ -116,7 +116,7 @@ class TextFormFieldWidget extends StatelessWidget {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         errorStyle:
-            const TextStyle(color: AppTheme.highlightMedium, fontSize: 13),
+            const TextStyle(color: AppTheme.textTitleForm, fontSize: 13),
         filled: true,
         fillColor: fillColor,
         hintText: hintText,

@@ -46,7 +46,7 @@ class _EmergencyInformationWidgetState
               ],
             ),
           ),
-          Image.asset(AppTheme.ImageInformationWidget)
+          Image.asset(AppTheme.imageInformationWidget)
         ],
       ),
     );

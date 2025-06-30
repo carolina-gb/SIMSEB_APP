@@ -157,8 +157,8 @@ class _FormLoginPageState extends State<FormLoginPage> {
                           });
                         },
                         child: controller.showPassWord
-                            ? Icon(Icons.visibility)
-                            : Icon(Icons.visibility_off)),
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off)),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'El campo no puede estar vacio';

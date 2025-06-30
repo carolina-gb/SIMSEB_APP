@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
+import 'package:fluttertest/modules/sos/page/sos.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/alert_template.dart';
@@ -40,6 +41,7 @@ class _EmergencyWidgetState extends State<EmergencyWidget>
 
   void _startHoldTimer() {
     _secondsHeld = 0;
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _secondsHeld++;
       if (_secondsHeld >= _holdDuration) {
@@ -57,14 +59,12 @@ class _EmergencyWidgetState extends State<EmergencyWidget>
 
   void _onHoldComplete() {
     // Acción cuando se mantiene presionado 3 segundos
-    final keylogin = GlobalHelper.genKey();
+    final sosPageKey = GlobalHelper.genKey();
     final fp = Provider.of<FunctionalProvider>(context, listen: false);
-    fp.showAlert(
-        key: keylogin,
-        content: AlertGeneric(
-          content: SuccessInformation(
-              keyToClose: keylogin, message: 'Se ha enviado la solicitud'),
-        ));
+    fp.addPage(
+      key: sosPageKey,
+      content: SosPage(globalKey: sosPageKey),
+    );
   }
 
   @override
@@ -75,11 +75,17 @@ class _EmergencyWidgetState extends State<EmergencyWidget>
     return Center(
       child: GestureDetector(
         onLongPressStart: (_) {
-          _isHolding = true;
+          setState(() {
+            _isHolding = true;
+          });
+          _controller.stop();
           _startHoldTimer();
         },
         onLongPressEnd: (_) {
-          _isHolding = false;
+          setState(() {
+            _isHolding = false;
+          });
+          _controller.repeat(reverse: true);
           _cancelHoldTimer();
         },
         child: Stack(
@@ -128,11 +134,20 @@ class _EmergencyWidgetState extends State<EmergencyWidget>
                     height: buttonSize,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFFF6A5E), Color(0xFFFF936C)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
+                      gradient: _isHolding
+                          ? const LinearGradient(
+                              colors: [
+                                Color.fromARGB(255, 177, 171, 171),
+                                Color(0xFFCA5B47)
+                              ], // tono más oscuro
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            )
+                          : const LinearGradient(
+                              colors: [Color(0xFFFF6A5E), Color(0xFFFF936C)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
                       boxShadow: [
                         const BoxShadow(
                           color: AppTheme.white,

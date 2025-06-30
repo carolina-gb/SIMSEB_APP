@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class LoginFormController {
 
-  bool showPassWord = true;
+  bool showPassWord = false;
 
   final formLoginController = GlobalKey<FormState>();
 
@@ -13,6 +13,4 @@ class LoginFormController {
     return userController.text.trim().isNotEmpty &&
         passwordController.text.trim().isNotEmpty;
   }
-
-
 }

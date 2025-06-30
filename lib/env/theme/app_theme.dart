@@ -18,21 +18,17 @@ class AppTheme {
   static const Color textTitleForm = Color(0xFFA3A3A3);
   static const Color gray1 = Color(0xFFe5e7e9 );
   static const Color gray2 = Color(0xFFF7F8F9);
-  static const Color gray3 = Color(0xFFF8F8F8);
+  static const Color gray3 = Color.fromARGB(163, 133, 130, 130);
   static const Color gray4 = Color(0xFFF3F3F3);
-
   static const Color error = Color(0xFFE4674E);
   static const Color error2 = Color(0xFFAD0048);
-
   static const Color black = Color(0xFF000000);
 
   //icons
   static const String logoIcon = "assets/logo_app.png";
-  // static const String logoIconLoading = "assets/promarisco_logo_loading.svg";
   static const String icon404Path = "assets/barrio_not_found.png";
-  // static const String iconCautionPath = "assets/caution.svg";
-  static const String ImageInformationWidget = "assets/ImageHome.png";
-
+  static const String imageInformationWidget = "assets/ImageHome.png";
+  static const String sosPath = "assets/CallSos.png";
   ThemeData theme() {
     return ThemeData(
       textSelectionTheme: const TextSelectionThemeData(

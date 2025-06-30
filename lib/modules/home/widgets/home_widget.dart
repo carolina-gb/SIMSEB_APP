@@ -3,6 +3,7 @@ import 'package:fluttertest/env/theme/app_theme.dart';
 import 'package:fluttertest/modules/home/widgets/emergency_information_widget.dart';
 import 'package:fluttertest/modules/home/widgets/emergency_widget.dart';
 import 'package:fluttertest/modules/new_request/page/new_request.dart';
+import 'package:fluttertest/modules/profile/page/profile.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
@@ -35,20 +36,28 @@ class _HomeWidgetState extends State<HomeWidget> {
             children: [
               Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.gray1, // color de fondo
-                        borderRadius: BorderRadius.circular(
-                            size.width), // igual al ClipRRect
-                      ),
-                      child: ClipRRect(
-                        // borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          "https://cdn-icons-png.flaticon.com/512/5231/5231019.png",
-                          width: size.height * 0.06,
-                          fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                       final newProfilePageKey = GlobalHelper.genKey();
+                fp.addPage(
+                  key: newProfilePageKey,
+                  content: ProfilePage(globalKey: newProfilePageKey),
+                );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.gray1, // color de fondo
+                          borderRadius: BorderRadius.circular(
+                              size.width), // igual al ClipRRect
+                        ),
+                        child: ClipRRect(
+                          child: Image.network(
+                            "https://cdn-icons-png.flaticon.com/512/5231/5231019.png",
+                            width: size.height * 0.06,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -97,7 +106,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             padding: EdgeInsets.symmetric(vertical: size.height * 0.04),
             child: const EmergencyInformationWidget(),
           ),
-          EmergencyWidget(),
+          const EmergencyWidget(),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: size.width * 0.02, vertical: size.height * 0.03),
