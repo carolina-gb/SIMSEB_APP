@@ -6,7 +6,9 @@ import 'package:fluttertest/modules/Login/models/requests/credentials_request.da
 import 'package:fluttertest/modules/Login/models/user_data_model.dart';
 import 'package:fluttertest/modules/Login/services/login_service.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
+import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
+import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
@@ -25,47 +27,45 @@ class _FormLoginPageState extends State<FormLoginPage> {
 
   _tryLogin(FunctionalProvider fp) async {
     if (controller.loginFormIsNotEmpty()) {
-      if (controller.passwordController.text == 'admin' &&
-          controller.userController.text == 'admin') {
-        GlobalHelper.navigateToPageRemove(context, '/home');
-      }
       final fp = Provider.of<FunctionalProvider>(context, listen: false);
 
       CredentialsRequest loginRequest = CredentialsRequest();
 
-      loginRequest.userName = controller.userController.text.trim().toString();
+      loginRequest.input = controller.userController.text.trim().toString();
       loginRequest.password =
           controller.passwordController.text.trim().toString();
 
-      // GeneralResponse response =
-      //     await loginService.login(context, loginRequest);
+      GeneralResponse response =
+          await loginService.login(context, loginRequest);
 
-      // if (!response.error) {
+      if (!response.error) {
         // log('Logeado');
 
-        // final userInformationResponse =
-        // ignore: use_build_context_synchronously
-        // await loginService.userInformation(context);
+        final userInformationResponse =
+            // ignore: use_build_context_synchronously
+            await loginService.userInformation(context);
 
-        // if (!userInformationResponse.error) {
-        // fp.setRegisterUserName(
-        //     '${userInformationResponse.data?.name ?? ''} ${userInformationResponse.data?.lastName ?? ''}');
-        // fp.setRegisterEmail(userInformationResponse.data?.email ?? '');
+        if (!userInformationResponse.error) {
+          fp.setRegisterUserName(
+              '${userInformationResponse.data?.fullName ?? ''}');
+          fp.setRegisterEmail(
+              userInformationResponse.data?.email ?? '');
 
-        //   GlobalHelper.navigateToPageRemove(context, '/home');
-        // }
-      // }
-    // } else {
-    //   final keylogin = GlobalHelper.genKey();
-    //   fp.showAlert(
-    //       key: keylogin,
-    //       content: AlertGeneric(
-    //           content: WarningAlert(
-    //         keyToClose: keylogin,
-    //         title: 'Campos Incompletos',
-    //         message:
-    //             'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
-    //       )));
+          GlobalHelper.navigateToPageRemove(context, '/home');
+          // }
+        }
+      } else {
+        final keylogin = GlobalHelper.genKey();
+        fp.showAlert(
+            key: keylogin,
+            content: AlertGeneric(
+                content: WarningAlert(
+              keyToClose: keylogin,
+              title: 'Campos Incompletos',
+              message:
+                  'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
+            )));
+      }
     }
   }
 
@@ -186,5 +186,3 @@ class _FormLoginPageState extends State<FormLoginPage> {
     );
   }
 }
-
-class AlertForgetPassword {}

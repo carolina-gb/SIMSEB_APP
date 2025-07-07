@@ -3,8 +3,8 @@ import 'config_base.dart';
 
 class DevEnv extends BaseConfig {
   @override
-  String get appName => 'Promarisco App';
+  String get appName => 'SIMSEB App';
 
   @override
-  String get serviceUrl => 'http://localhost:3000';
+  String get serviceUrl => 'http://10.0.2.2:5255/api';
 }

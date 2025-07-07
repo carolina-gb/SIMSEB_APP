@@ -67,25 +67,24 @@ class _AlertLoadingState extends State<AlertLoading>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Material(
       type: MaterialType.transparency,
       child: SizedBox(
-        height: 30,
-        width: 40,
+        height: size.height * 0.8,
+        width: size.width * 0.8,
         child: FadeTransition(
           opacity: _animation,
-          child: const Stack(
-            alignment: Alignment.topCenter,
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              Text('Logo')
-              // SvgPicture.asset(
-              //   AppTheme.logoIcon,
-              //   fit: BoxFit.fill,
-              //   colorFilter: const ColorFilter.mode(
-              //       AppTheme.primaryMedium, BlendMode.srcIn),
-              //   width: responsive.dp(18),
-              //   height: responsive.dp(18),
-              // ),
+              // Text('Logo')
+              Hero(
+                  tag: 'logo',
+                  child: Image.asset(
+                    AppTheme.logoIcon,
+                    width: size.width * 1,
+                  )),
             ],
           ),
         ),
@@ -93,8 +92,6 @@ class _AlertLoadingState extends State<AlertLoading>
     );
   }
 }
-
-class SvgPicture {}
 
 class AlertGeneric extends StatefulWidget {
   final bool dismissable;
@@ -392,9 +389,9 @@ class ConfirmContent extends StatelessWidget {
                 )
               ],
             )),
-        const SizedBox(height:  15),
+        const SizedBox(height: 15),
         messageAlerts(size, message: message),
-        const SizedBox(height:  25),
+        const SizedBox(height: 25),
         SizedBox(width: size.width * 0.08),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -407,7 +404,7 @@ class ConfirmContent extends StatelessWidget {
                 color: AppTheme.primaryDarkest,
                 onPressed: confirm,
                 width: size.width * 0.05,
-                height:  42,
+                height: 42,
                 textButtonColor: AppTheme.white,
                 borderRadius: 5,
                 text: 'Aceptar'),
@@ -466,7 +463,7 @@ class WarningAlert extends StatelessWidget {
             )),
         const SizedBox(height: 25),
         isTitle == true
-            ? titleAlerts( title: title, color: AppTheme.warning)
+            ? titleAlerts(title: title, color: AppTheme.warning)
             : const SizedBox(),
         isTitle == true
             ? SizedBox(height: size.height * 0.015)
@@ -504,5 +501,3 @@ class WarningAlert extends StatelessWidget {
     );
   }
 }
-
-

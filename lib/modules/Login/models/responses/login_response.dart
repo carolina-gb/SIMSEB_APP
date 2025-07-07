@@ -5,21 +5,17 @@ LoginResponse loginResponseFromJson(String str) => LoginResponse.fromJson(json.d
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
 class LoginResponse {
-    final String? sessionToken;
-    final String? sessionTokenRefresh;
+    final String? token;
 
     LoginResponse({
-        this.sessionToken,
-        this.sessionTokenRefresh,
+        this.token,
     });
 
     factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        sessionToken: json["session_token"],
-        sessionTokenRefresh: json["session_token_refresh"],
+        token: json["token"]
     );
 
     Map<String, dynamic> toJson() => {
-        "session_token": sessionToken,
-        "session_token_refresh": sessionTokenRefresh,
+        "token": token,
     };
 }

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertest/env/enviroment.dart';
 import 'package:fluttertest/modules/Login/page/login_page.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
+import 'package:fluttertest/shared/helpers/security_storage.dart';
 import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/alert_template.dart';
@@ -33,6 +34,7 @@ class InterceptorHttp {
     Map<String, String>? multipartFields,
     String requestType = "JSON",
     Function(int sentBytes, int totalBytes)? onProgressLoad,
+    bool isLogin = false,
   }) async {
     final urlService = Environment().config?.serviceUrl ?? "no url";
 
@@ -63,9 +65,13 @@ class InterceptorHttp {
       }
 
       //? Envio de TOKEN
-      // LoginResponse? userData = await SecurityStorage().getUserData();
 
+// Obtén el token guardado
       String tokenSesion = "";
+      if (!isLogin) {
+        // Obtén el token guardado (por ejemplo, desde SharedPreferences
+        tokenSesion = await SecurityStorage.getToken();
+      }
 
       // if (userData != null) {
       //   tokenSesion = userData.sessionToken!;
@@ -73,11 +79,12 @@ class InterceptorHttp {
 
       //PackageInfo packageInfo = await PackageInfo.fromPlatform();
       Map<String, String> headers = {
-        "Authorization": (requestType == 'JSON')
-            ? 'Bearer $tokenSesion'
-            : 'Bearer $tokenSesion',
         "Content-Type": "application/json",
       };
+
+      if (tokenSesion.isNotEmpty) {
+        headers["Authorization"] = "Bearer $tokenSesion";
+      }
 
       int responseStatusCode = 0;
       String responseBody = "";
@@ -89,7 +96,7 @@ class InterceptorHttp {
               response = await http.post(uri,
                   headers: headers,
                   body: body != null ? json.encode(body) : null);
-              //inspect(_response);
+              inspect(response);
               break;
             case "GET":
               response = await http.get(uri, headers: headers);
@@ -113,7 +120,7 @@ class InterceptorHttp {
               break;
           }
           responseBody = response.body;
-          responseStatusCode = json.decode(responseBody)["statusCode"];
+          responseStatusCode = json.decode(responseBody)["code"];
 
           break;
         case "FORM":

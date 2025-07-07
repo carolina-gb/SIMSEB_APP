@@ -99,8 +99,8 @@ class FunctionalProvider extends ChangeNotifier {
     return userName;
   }
 
-  setRegisterUserName(String name) {
-    registerUserName = name;
+  setRegisterUserName(String fullName) {
+    registerUserName = fullName;
     notifyListeners();
   }
 
