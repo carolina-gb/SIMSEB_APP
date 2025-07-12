@@ -18,7 +18,7 @@ class FilledButtonWidget extends StatefulWidget {
     this.onPressed,
     this.color,
     required this.text,
-    this.width = double.infinity,
+    this.width = 2,
     this.height = 55,
     this.borderRadius = 20,
     this.textButtonColor,
@@ -36,8 +36,7 @@ class _FilledButtonWidgetState extends State<FilledButtonWidget> {
   Widget build(BuildContext context) {
     return FilledButton(
       style: ButtonStyle(
-        minimumSize:
-            WidgetStateProperty.all<Size>(Size(widget.width!, widget.height!)),
+        minimumSize: WidgetStateProperty.all<Size>(Size(150, widget.height!)),
         backgroundColor: WidgetStatePropertyAll(widget.color),
         shape: WidgetStatePropertyAll(ContinuousRectangleBorder(
             borderRadius:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
+import 'package:fluttertest/shared/widgets/combo_widget.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text.dart';
 import 'package:fluttertest/shared/widgets/title.dart';
@@ -17,14 +18,14 @@ class _SosWidgetState extends State<SosWidget> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-      final fp = Provider.of<FunctionalProvider>(context, listen: false);
+    final fp = Provider.of<FunctionalProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: EdgeInsets.only(
-              top: size.height * 0.2, bottom: size.height * 0.08),
+              top: size.height * 0.1, bottom: size.height * 0.08),
           child: Image.asset(AppTheme.sosPath),
         ),
         Padding(
@@ -53,13 +54,56 @@ class _SosWidgetState extends State<SosWidget> {
             textAlign: TextAlign.start,
           ),
         ),
-        FilledButtonWidget(
-          text: "Cancelar solicitud",
-          color: AppTheme.gray3,
-          width: size.width * 0.02,
-          onPressed: () {
-            fp.clearAllPages();
-          },
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+          child: ComboBoxWidget(
+            dropdownBackgroundColor: AppTheme.gray1,
+            width: size.height * 0.3,
+            items: const [
+              'Seleccione',
+              'Desaseo',
+              'Pelea',
+            ],
+            onChanged: (value) {
+              print('hola');
+            },
+            selectedValue: 'Seleccione',
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+          
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: size.height * 0.01,
+                ),
+                child: FilledButtonWidget(
+                  text: "Enviar",
+                  color: AppTheme.gray3,
+                  width: size.width * 0.02,
+                  onPressed: () {
+                    fp.clearAllPages();
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: size.height * 0.02,
+                ),
+                child: FilledButtonWidget(
+                  text: "Cancelar",
+                  color: AppTheme.gray3,
+                  width: size.width * 0.02,
+                  onPressed: () {
+                    fp.clearAllPages();
+                  },
+                ),
+              ),
+            ],
+          ),
         )
       ],
     );
