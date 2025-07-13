@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
+import 'package:fluttertest/modules/sos/controller/sos_controller.dart';
+import 'package:fluttertest/modules/sos/models/request/emergency_request.dart';
+import 'package:fluttertest/modules/sos/models/response/emergency_response.dart';
+import 'package:fluttertest/modules/sos/services/sos_service.dart';
+import 'package:fluttertest/shared/helpers/global_helper.dart';
+import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
+import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/combo_widget.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text.dart';
@@ -15,6 +22,84 @@ class SosWidget extends StatefulWidget {
 }
 
 class _SosWidgetState extends State<SosWidget> {
+  SosController controller = SosController();
+  Future<void> _tryCreateEmergency() async {
+    final fp = Provider.of<FunctionalProvider>(context, listen: false);
+    // 1. Verifica que haya un tipo seleccionado (puedes adaptar la lógica).
+    if (controller.typeId != null) {
+      final emergencySvc = EmergencyService();
+
+      // 2. Arma el request.
+      final request =
+          EmergencyRequest(typeId: int.parse(controller.typeId.text));
+
+      // 3. Dispara el servicio.
+      final GeneralResponse<EmergencyResponse> resp =
+          await emergencySvc.createEmergency(context, request);
+
+      // 4. Si salió bien…
+      if (!resp.error && resp.data != null) {
+        final key = GlobalHelper.genKey();
+        fp.showAlert(
+          key: key,
+          content: AlertGeneric(
+            content: SuccessInformation(
+              keyToClose: key,
+              message: resp.message,
+              onPressed: () {
+                fp.clearAllAlert();
+                fp.clearAllPages();
+              },
+            ),
+          ),
+        );
+
+        // Guarda datos útiles en tu provider ― opcional.
+        // fp.setEmergencyId(resp.data!.emergencyId);
+        // fp.setEmergencyCreatedAt(resp.data!.createdAt);
+
+        // Navega a la página de detalle (ajusta la ruta a tu gusto).
+        // ignore: use_build_context_synchronously
+      } else {
+        // 5. Falló la llamada: alerta al usuario.
+        _showEmergencyError(fp,
+            title: 'Ups, ocurrió un problema',
+            message: resp.message ??
+                'No pudimos crear tu emergencia. Intenta de nuevo.');
+      }
+    } else {
+      // No se seleccionó typeId.
+      _showEmergencyError(fp,
+          title: 'Tipo de emergencia vacío',
+          message: 'Selecciona un tipo antes de continuar.');
+    }
+  }
+
+  /// Muestra un alert genérico usando tu FunctionalProvider.
+  void _showEmergencyError(
+    FunctionalProvider fp, {
+    required String title,
+    required String message,
+  }) {
+    final key = GlobalHelper.genKey();
+    fp.showAlert(
+      key: key,
+      content: AlertGeneric(
+        content: WarningAlert(
+          keyToClose: key,
+          title: title,
+          message: message,
+        ),
+      ),
+    );
+  }
+
+  final Map<String, int> _emergencyOptions = {
+    'Seleccione…': 0, // opcional, para placeholder
+    'Robo': 1,
+    'Incendio': 2,
+    'Pelea': 3,
+  };
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -59,15 +144,16 @@ class _SosWidgetState extends State<SosWidget> {
           child: ComboBoxWidget(
             dropdownBackgroundColor: AppTheme.gray1,
             width: size.height * 0.3,
-            items: const [
-              'Seleccione',
-              'Desaseo',
-              'Pelea',
-            ],
+            items: _emergencyOptions.keys.toList(),
             onChanged: (value) {
-              print('hola');
+              if (value == null || value == 'Seleccione…') {
+                controller.typeId.clear(); // vacía si no eligió
+                return;
+              }
+              final id = _emergencyOptions[value]!; // 1, 2 o 3
+              controller.typeId.text = id.toString();
             },
-            selectedValue: 'Seleccione',
+            selectedValue: 'Seleccione…',
           ),
         ),
         Padding(
@@ -75,7 +161,6 @@ class _SosWidgetState extends State<SosWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-          
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: size.height * 0.01,
@@ -84,8 +169,8 @@ class _SosWidgetState extends State<SosWidget> {
                   text: "Enviar",
                   color: AppTheme.gray3,
                   width: size.width * 0.02,
-                  onPressed: () {
-                    fp.clearAllPages();
+                  onPressed: () async {
+                    await _tryCreateEmergency();
                   },
                 ),
               ),

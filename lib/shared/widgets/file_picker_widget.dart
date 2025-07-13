@@ -6,14 +6,34 @@ import 'package:permission_handler/permission_handler.dart';
 class ImagePickerWithPermissions extends StatefulWidget {
   final Function(File?)? onImageSelected;
 
-  const ImagePickerWithPermissions({Key? key, this.onImageSelected}) : super(key: key);
+  const ImagePickerWithPermissions({Key? key, this.onImageSelected})
+      : super(key: key);
 
   @override
-  State<ImagePickerWithPermissions> createState() => _ImagePickerWithPermissionsState();
+  State<ImagePickerWithPermissions> createState() =>
+      _ImagePickerWithPermissionsState();
 }
 
-class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions> {
+class _ImagePickerWithPermissionsState
+    extends State<ImagePickerWithPermissions> {
   final ImagePicker _picker = ImagePicker();
+  File? _selectedImage; // 👉 para previsualizar
+
+  // --------------------------- PERMISOS + PICK --------------------------- //
+  Future<PermissionStatus> _requestGalleryPermission() async {
+    if (Platform.isAndroid) {
+      // 1️⃣ Primero intenta READ_MEDIA_IMAGES (API 33+).
+      var status = await Permission.photos.request();
+
+      // 2️⃣ Si seguimos en negado es porque estamos en API<=32.
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+      }
+      return status;
+    }
+    // iOS / macOS
+    return await Permission.photos.request();
+  }
 
   Future<void> _checkAndRequestPermission(ImageSource source) async {
     try {
@@ -21,20 +41,17 @@ class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions>
 
       if (source == ImageSource.camera) {
         status = await Permission.camera.request();
-      } else if (Platform.isAndroid) {
-        status = await Permission.storage.request();
       } else {
-        status = await Permission.photos.request();
+        status = await _requestGalleryPermission();
       }
 
       if (status.isGranted) {
         await _pickImage(source);
       } else if (status.isPermanentlyDenied) {
-        _showPermissionSettingsDialog(source == ImageSource.camera ? 'cámara' : 'galería');
+        _showPermissionSettingsDialog(
+            source == ImageSource.camera ? 'cámara' : 'galería');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permiso necesario para continuar')),
-        );
+        _showErrorDialog('Permiso necesario para continuar');
       }
     } catch (e) {
       _showErrorDialog('Error al solicitar permisos: $e');
@@ -43,9 +60,11 @@ class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions>
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final XFile? pickedFile = await _picker.pickImage(source: source, imageQuality: 80);
+      final XFile? pickedFile =
+          await _picker.pickImage(source: source, imageQuality: 80);
       if (pickedFile != null) {
         final file = File(pickedFile.path);
+        setState(() => _selectedImage = file); // ← refresca preview
         widget.onImageSelected?.call(file);
       }
     } catch (e) {
@@ -53,15 +72,21 @@ class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions>
     }
   }
 
+  // --------------------------- DIÁLOGOS --------------------------- //
+
   void _showPermissionSettingsDialog(String permiso) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Permiso requerido'),
-        content: Text('El permiso para acceder a la $permiso fue denegado permanentemente. '
+        content: Text(
+            'El permiso para acceder a la $permiso fue denegado permanentemente. '
             'Por favor, habilítalo en la configuración de la aplicación.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
@@ -75,8 +100,11 @@ class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions>
   }
 
   void _showErrorDialog(String mensaje) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(mensaje)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(mensaje)));
   }
+
+  // --------------------------- UI --------------------------- //
 
   @override
   Widget build(BuildContext context) {
@@ -89,19 +117,38 @@ class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // PREVIEW ─ solo si hay imagen
+          if (_selectedImage != null) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.file(
+                _selectedImage!,
+                width: 180,
+                height: 180,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+
+          // BOTÓN CÁMARA
           GestureDetector(
             onTap: () => _checkAndRequestPermission(ImageSource.camera),
             child: Column(
               children: [
-                const Icon(Icons.add_photo_alternate_outlined, size: 48, color: Colors.grey),
+                const Icon(Icons.add_a_photo, size: 48, color: Colors.grey),
                 const SizedBox(height: 8),
-                Text('Tomar foto', style: TextStyle(color: Colors.grey.shade600)),
+                Text('Tomar foto',
+                    style: TextStyle(color: Colors.grey.shade600)),
               ],
             ),
           ),
           const SizedBox(height: 4),
-          Text('o', style: TextStyle(fontSize: 20, color: Colors.grey.shade400)),
+          Text('o',
+              style: TextStyle(fontSize: 20, color: Colors.grey.shade400)),
           const SizedBox(height: 4),
+
+          // BOTÓN GALERÍA
           OutlinedButton(
             onPressed: () => _checkAndRequestPermission(ImageSource.gallery),
             style: OutlinedButton.styleFrom(
@@ -111,7 +158,8 @@ class _ImagePickerWithPermissionsState extends State<ImagePickerWithPermissions>
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             ),
-            child: Text('Abrir galería', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text('Abrir galería',
+                style: TextStyle(color: Colors.grey.shade600)),
           ),
         ],
       ),

@@ -124,6 +124,9 @@ class InterceptorHttp {
 
           break;
         case "FORM":
+          // headers.forEach((key, value) {
+          //   request.headers.set(key, value); // << en vez de solo Authorization
+          // });
           final httpClient = getHttpClient();
           final request = await httpClient.postUrl(Uri.parse(url));
 

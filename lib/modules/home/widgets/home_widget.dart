@@ -25,7 +25,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final fp = Provider.of<FunctionalProvider>(context, listen: false);
-
+    final fullName = fp.getRegisterUserName();
     return Padding(
       padding: EdgeInsets.symmetric(
           horizontal: size.width * 0.05, vertical: size.height * 0.02),
@@ -64,12 +64,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                   ),
                   TitleWidget(
                     title: 'Hola, ',
-                    fontSize: size.height * 0.03,
+                    fontSize: size.width * 0.06,
                     fontWeight: FontWeight.bold,
                   ),
                   TitleWidget(
-                    title: 'Carolina',
-                    fontSize: size.height * 0.03,
+                    title: GlobalHelper().firstWord(fullName),
+                    fontSize: size.width * 0.06,
                     fontWeight: FontWeight.bold,
                   ),
                 ],
@@ -90,7 +90,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         size: size.width * 0.08,
                         color: AppTheme.white,
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       TextWidget(
                         title: "Salir",
                         fontSize: size.height * 0.02,

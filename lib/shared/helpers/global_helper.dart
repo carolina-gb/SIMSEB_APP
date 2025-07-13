@@ -73,4 +73,9 @@ class GlobalHelper {
     }
     return null;
   }
+  String firstWord(String text) {
+  if (text.trim().isEmpty) return '';
+  final words = text.trim().split(RegExp(r'\s+'));
+  return words.isNotEmpty ? words.first : '';
+}
 }
