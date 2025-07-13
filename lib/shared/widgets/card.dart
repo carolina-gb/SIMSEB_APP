@@ -6,15 +6,15 @@ import 'package:fluttertest/shared/widgets/title.dart';
 class CardWidget extends StatefulWidget {
   const CardWidget({
     super.key,
-    required this.numberRequest,
-    required this.detail,
-    required this.type,
-    required this.status,
+    this.numberRequest,
+    this.detail,
+    this.type,
+    this.status,
   });
-  final String numberRequest;
-  final String detail;
-  final String type;
-  final String status;
+  final String? numberRequest;
+  final String? detail;
+  final String? type;
+  final String? status;
 
   @override
   State<CardWidget> createState() => _CardWidgetState();
@@ -42,7 +42,7 @@ class _CardWidgetState extends State<CardWidget> {
                 color: AppTheme.black,
               ),
               TitleWidget(
-                title: widget.numberRequest,
+                title: widget.numberRequest ?? '---',
                 fontWeight: FontWeight.bold,
               ),
             ],
@@ -51,7 +51,7 @@ class _CardWidgetState extends State<CardWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding:  EdgeInsets.symmetric(vertical:  size.height * 0.01),
+                padding: EdgeInsets.symmetric(vertical: size.height * 0.01),
                 child: TextWidget(
                   title: 'Descipción: ${widget.detail}',
                   color: AppTheme.black,
@@ -64,12 +64,12 @@ class _CardWidgetState extends State<CardWidget> {
                 fontWeight: FontWeight.normal,
               ),
               Padding(
-                padding: EdgeInsets.only(top:  size.height * 0.02),
+                padding: EdgeInsets.only(top: size.height * 0.02),
                 child: Row(
-                  mainAxisAlignment:  MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const TextWidget(title: 'Estado'),
-                    TextWidget(title: widget.status)
+                    TextWidget(title: widget.status ?? '---')
                   ],
                 ),
               ),
