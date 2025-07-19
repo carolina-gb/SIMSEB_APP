@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertest/env/theme/app_theme.dart';
 import 'package:fluttertest/modules/profile/controller/profile_form_controller.dart';
+import 'package:fluttertest/modules/profile/models/profile_data_model.dart';
+import 'package:fluttertest/modules/profile/services/profile_services.dart';
 import 'package:fluttertest/shared/helpers/global_helper.dart';
+import 'package:fluttertest/shared/models/general_response.dart';
 import 'package:fluttertest/shared/providers/functional_provider.dart';
 import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
@@ -20,22 +23,39 @@ class ProfileFormWidget extends StatefulWidget {
 
 class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   ProfileFormController controller = ProfileFormController();
-  _tryLogin(FunctionalProvider fp) async {
+  UserService userService = UserService();
+  ProfileDataModel profileData = ProfileDataModel();
+  
+  _trygetUser(BuildContext context) async {
+    final fp = Provider.of<FunctionalProvider>(context, listen: false);
     if (controller.profileFormIsNotEmpty()) {
+      GeneralResponse profileResponse = await userService.getProfile(context);
+      if (!profileResponse.error) {
+        profileData = profileResponse.data;
+      }
+    } else {
       final keylogin = GlobalHelper.genKey();
       fp.showAlert(
           key: keylogin,
           content: AlertGeneric(
-            content: SuccessInformation(
-                keyToClose: keylogin, message: 'Se ha actualizado su perfils'),
-          ));
+              content: WarningAlert(
+            keyToClose: keylogin,
+            title: 'Campos Incompletos',
+            message:
+                'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
+          )));
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _trygetUser(context); // no necesitas asignar aquí
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fp = Provider.of<FunctionalProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: size.width * 0.1,
@@ -77,7 +97,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                   child: Column(
                     children: [
                       TextWidget(
-                        title: "Carolina Gonzalez",
+                        title: profileData.name!,
                         fontSize: size.height * 0.02,
                         fontWeight: FontWeight.normal,
                       ),
@@ -108,7 +128,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.02),
-                  child: TextWidget(title: "Nombres Completos"),
+                  child: const TextWidget(title: "Nombres Completos"),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.01),
@@ -241,7 +261,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                         width: size.width * 0.3,
                         text: 'Guardar',
                         onPressed: () {
-                          _tryLogin(fp);
+                          // _tryLogin(fp);
                         }),
                   ),
                 ),

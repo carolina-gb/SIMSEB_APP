@@ -44,7 +44,13 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_secure_storage: ^9.0.0
   jwt_decoder: ^2.0.1
-  geolocator: ^14.0.2
+  geolocator: ^11.0.0
+
+  
+dependency_overrides:
+  geolocator: ^11.0.0
+  geolocator_android: ^5.0.0 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
