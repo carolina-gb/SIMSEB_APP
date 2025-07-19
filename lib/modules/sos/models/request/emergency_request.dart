@@ -12,14 +12,20 @@ String emergencyRequestToJson(EmergencyRequest data) =>
 
 class EmergencyRequest {
   int? typeId;
+  final double latitude;
+  final double longitude;
 
   EmergencyRequest({
     this.typeId,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory EmergencyRequest.fromJson(Map<String, dynamic> json) =>
       EmergencyRequest(
         typeId: json['typeId'],
+        latitude: json['latitude'],
+        longitude: json['longitude'],
       );
 
   Map<String, dynamic> toJson() => {

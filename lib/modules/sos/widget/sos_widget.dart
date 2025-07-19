@@ -13,6 +13,7 @@ import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text.dart';
 import 'package:fluttertest/shared/widgets/title.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertest/modules/sos/services/location_service.dart';
 
 class SosWidget extends StatefulWidget {
   const SosWidget({super.key});
@@ -28,10 +29,13 @@ class _SosWidgetState extends State<SosWidget> {
     // 1. Verifica que haya un tipo seleccionado (puedes adaptar la lógica).
     if (controller.typeId != null) {
       final emergencySvc = EmergencyService();
-
+      final pos = await LocationService().getCurrent();
       // 2. Arma el request.
-      final request =
-          EmergencyRequest(typeId: int.parse(controller.typeId.text));
+      final request = EmergencyRequest(
+        typeId: int.parse(controller.typeId.text),
+        latitude: pos.latitude,
+        longitude: pos.longitude,
+      );
 
       // 3. Dispara el servicio.
       final GeneralResponse<EmergencyResponse> resp =
