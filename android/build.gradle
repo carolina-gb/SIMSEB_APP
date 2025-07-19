@@ -17,6 +17,15 @@ allprojects {
     }
 }
 
+ext {
+    flutter = [
+        compileSdkVersion: 34,           // API 34 (Android 14)
+        minSdkVersion    : 21,           // mín. soportado por Flutter
+        targetSdkVersion : 34,
+        ndkVersion       : "27.0.12077973"   // el mismo que trae Flutter SDK
+    ]
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"

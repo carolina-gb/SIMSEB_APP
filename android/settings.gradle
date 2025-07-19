@@ -1,13 +1,18 @@
-pluginManagement {
-    def flutterSdkPath = {
-        def properties = new Properties()
-        file("local.properties").withInputStream { properties.load(it) }
-        def flutterSdkPath = properties.getProperty("flutter.sdk")
-        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-        return flutterSdkPath
-    }
-    settings.ext.flutterSdkPath = flutterSdkPath()
+// android/settings.gradle – plantilla compatible con Flutter 3.24+
 
+pluginManagement {
+    // 1️⃣ Localiza la ruta del SDK de Flutter (FVM en tu caso)
+    def flutterSdkPath = {
+        def props = new Properties()
+        file("local.properties").withInputStream { props.load(it) }
+        def path = props.getProperty("flutter.sdk")
+        assert path != null : "flutter.sdk not set in local.properties"
+        return path
+    }()
+    // 2️⃣ La guardas en settings.ext
+    settings.ext.flutterSdkPath = flutterSdkPath
+
+    // 3️⃣ Cargas los scripts de Flutter
     includeBuild("${settings.ext.flutterSdkPath}/packages/flutter_tools/gradle")
 
     repositories {
@@ -15,15 +20,12 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-
-    plugins {
-        id "dev.flutter.flutter-gradle-plugin" version "1.0.0" apply false
-    }
 }
 
 plugins {
     id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-    id "com.android.application" version "8.4.0" apply false
+    id "com.android.application"          version "8.7.0" apply false
+    id "org.jetbrains.kotlin.android"     version "2.0.10" apply false
 }
 
-include ":app"
+include(":app")

@@ -1,55 +1,42 @@
+//  android/app/build.gradle  (NO dentro de src)
+
 plugins {
-    // AGP y Kotlin
-    id "com.android.application"
-    id "org.jetbrains.kotlin.android"   // (antes era kotlin-android)
-
-    // Plugin de Flutter para módulos Android
-    id "dev.flutter.flutter-android"
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("dev.flutter.flutter-gradle-plugin")   // ✔️ este es el correcto para el módulo
+    // id("com.google.gms.google-services")
+    // id("com.google.firebase.crashlytics")
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
-def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
+def localProps = new Properties()
+file("$rootDir/local.properties").withInputStream { localProps.load(it) }
+def flutterVersionCode  = (localProps['flutter.versionCode'] ?: '1') as int
+def flutterVersionName  =  localProps['flutter.versionName'] ?: '1.0'
 
 android {
     namespace "com.example.fluttertest"
 
-    // El plugin `dev.flutter.flutter-android` ya define estas
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion        flutter.ndkVersion
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8   // o 17 si prefieres
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions { jvmTarget = '1.8' }
-
-    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+    /* 👉  AQUI van los valores que faltaban  */
+    compileSdk   flutter.compileSdkVersion     // ← resuelve el error
+    ndkVersion   flutter.ndkVersion            // opcional, pero moderno
 
     defaultConfig {
         applicationId "com.example.fluttertest"
-        minSdkVersion     flutter.minSdkVersion
-        targetSdkVersion  flutter.targetSdkVersion
-        versionCode       flutterVersionCode.toInteger()
-        versionName       flutterVersionName
+        minSdk       flutter.minSdkVersion
+        targetSdk    flutter.targetSdkVersion
+        versionCode  flutterVersionCode
+        versionName  flutterVersionName
     }
 
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug   // cámbialo después
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    kotlinOptions { jvmTarget = '17' }
 }
 
-flutter {
-    source '../..'
-}
+flutter { source '../..' }
 
-dependencies {}
+dependencies {
+    // tus libs nativas aquí
+}
