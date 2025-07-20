@@ -28,7 +28,6 @@ class EmergencyRequest {
         longitude: json['longitude'],
       );
 
-  Map<String, dynamic> toJson() => {
-        'typeId': typeId,
-      };
+  Map<String, dynamic> toJson() =>
+      {'typeId': typeId, 'latitude': latitude, 'longitude': longitude};
 }

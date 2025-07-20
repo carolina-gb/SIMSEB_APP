@@ -38,11 +38,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                       final newProfilePageKey = GlobalHelper.genKey();
-                fp.addPage(
-                  key: newProfilePageKey,
-                  content: ProfilePage(globalKey: newProfilePageKey),
-                );
+                      // final newProfilePageKey = GlobalHelper.genKey();
+                      // fp.addPage(
+                      //   key: newProfilePageKey,
+                      //   content: ProfilePage(globalKey: newProfilePageKey),
+                      // );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -54,7 +54,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                         child: ClipRRect(
                           child: Image.network(
-                            "https://cdn-icons-png.flaticon.com/512/5231/5231019.png",
+                            "https://cdn-icons-png.flaticon.com/512/18875/18875354.png",
                             width: size.height * 0.06,
                             fit: BoxFit.cover,
                           ),
@@ -75,13 +75,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ],
               ),
               GestureDetector(
-                onTap:(){
-                        GlobalHelper.navigateToPageRemove(
-                            context, '/loginPage');
-                      },
+                onTap: () {
+                  GlobalHelper.navigateToPageRemove(context, '/loginPage');
+                },
                 child: Container(
                   // color: AppTheme.primaryMedium,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppTheme.primaryMedium),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppTheme.primaryMedium),
                   padding: const EdgeInsets.all(8),
                   child: Row(
                     children: [
@@ -90,7 +91,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                         size: size.width * 0.08,
                         color: AppTheme.white,
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       TextWidget(
                         title: "Salir",
                         fontSize: size.height * 0.02,
