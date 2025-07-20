@@ -6,7 +6,7 @@ class ProdEnv extends BaseConfig{
   String get appName => 'SIMSEB App';
 
   @override
-  String get serviceUrl => 'http://10.0.2.2:5255/api';
+  String get serviceUrl => 'https://simseb.onrender.com/api';
 }
 
 
