@@ -38,11 +38,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // final newProfilePageKey = GlobalHelper.genKey();
-                      // fp.addPage(
-                      //   key: newProfilePageKey,
-                      //   content: ProfilePage(globalKey: newProfilePageKey),
-                      // );
+                      final newProfilePageKey = GlobalHelper.genKey();
+                      fp.addPage(
+                        key: newProfilePageKey,
+                        content: ProfilePage(globalKey: newProfilePageKey),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

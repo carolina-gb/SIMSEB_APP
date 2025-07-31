@@ -77,7 +77,7 @@ class _FormLoginPageState extends State<FormLoginPage> {
         controller.userController.text = userModel!.usuario!;
         controller.passwordController.text = userModel!.clave!;
       }
-      controller.userController.text = 'eramirez';
+      controller.userController.text = '';
       controller.passwordController.text = '';
       setState(() {});
     });

@@ -28,9 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return const MainLayout(
       nameInterceptor: 'login',
-      backPageView: false ,
       requiredStack: true ,
-      isHomePage: true,
       isLoginPage: true,
       // isScrolleabe: false,
       child: FormLoginPage());

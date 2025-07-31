@@ -109,7 +109,9 @@ class _MainLayoutState extends State<MainLayout> {
                         GlobalHelper.navigationFadeIn(
                             context, const LoginPage()),
                         (route) => false)
-                    : _modalSessionClose();
+                    : widget.isLoginPage
+                        ? null
+                        : _modalSessionClose();
             return true;
           }
         }
@@ -173,22 +175,23 @@ class _MainLayoutState extends State<MainLayout> {
       maintainBottomViewPadding: true,
       child: Container(
         decoration: widget.isSosPage!
-        ? const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFED4C5C), Color(0xFF1F41BB)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          )
-        : null,
+            ? const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFED4C5C), Color(0xFF1F41BB)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              )
+            : null,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: widget.isSosPage! ? AppTheme.transparent: AppTheme.white,
+          backgroundColor:
+              widget.isSosPage! ? AppTheme.transparent : AppTheme.white,
           body: Stack(
             children: [
               RefreshIndicator(
                 displacement: 50,
-                backgroundColor:  AppTheme.white,
+                backgroundColor: AppTheme.white,
                 color: AppTheme.primaryDarkest,
                 notificationPredicate:
                     widget.onRefresh != null ? (_) => true : (_) => false,
@@ -205,31 +208,35 @@ class _MainLayoutState extends State<MainLayout> {
                       visible: !widget.isHomePage,
                       sliver: SliverAppBar(
                         surfaceTintColor: AppTheme.white,
-                        leading: !widget.isHomePage
-                            ? Visibility(
-                                visible: widget.backPageView!,
-                                child: InkWell(
-                                  child: const Icon(Icons.arrow_back_ios_new,
-                                      color: AppTheme.black),
-                                  onTap: () {
-                                    widget.actionToBack != null
-                                        ? widget.actionToBack!()
-                                        : widget.keyDismiss != null
-                                            ? fp.clearAllPages()
-                                            : _modalSessionClose();
-        
-                                    setState(() {});
-                                  },
-                                ),
-                              )
-                            : InkWell(
-                                child: const Icon(
-                                  Icons.logout,
-                                  color: AppTheme.white,
-                                  // size: responsive.dp(2.5),
-                                ),
-                                onTap: () => _modalSessionClose(),
-                              ),
+                        leading:
+                            // !widget.isHomePage
+                            //     ?
+                            Visibility(
+                          visible: widget.backPageView!,
+                          child: InkWell(
+                            child: const Icon(Icons.arrow_back_ios_new,
+                                color: AppTheme.black),
+                            onTap: () {
+                              widget.actionToBack != null
+                                  ? widget.actionToBack!()
+                                  : widget.keyDismiss != null
+                                      ? fp.clearAllPages()
+                                      : widget.isLoginPage
+                                          ? null
+                                          : _modalSessionClose();
+
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                        // : InkWell(
+                        //     child: const Icon(
+                        //       Icons.logout,
+                        //       color: AppTheme.white,
+                        //       // size: responsive.dp(2.5),
+                        //     ),
+                        //     onTap: () => _modalSessionClose(),
+                        //   ),
                         toolbarHeight: widget.haveLogoCenter
                             ? size.height * 0.25
                             : widget.isHomePage || widget.isMenuPage!
