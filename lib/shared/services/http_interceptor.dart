@@ -230,7 +230,8 @@ class InterceptorHttp {
           fp.dismissAlert(key: keyLoading);
           break;
         case 401:
-          generalResponse.message =
+        var responseDecoded = json.decode(responseBody);
+          generalResponse.message = responseDecoded["message"]??
               'Su sesión ha caducado, vuelva a iniciar sesión.';
           generalResponse.error = true;
           messageButton = 'Volver a ingresar';
@@ -238,10 +239,10 @@ class InterceptorHttp {
             await fp.clearAllAlert();
             log('al login');
 
-            await Navigator.pushAndRemoveUntil(
-                context,
-                GlobalHelper.navigationFadeIn(context, const LoginPage()),
-                (route) => false);
+            // await Navigator.pushAndRemoveUntil(
+            //     context,
+            //     GlobalHelper.navigationFadeIn(context, const LoginPage()),
+            //     (route) => false);
           };
           fp.dismissAlert(key: keyLoading);
           break;
@@ -252,6 +253,7 @@ class InterceptorHttp {
           messageButton = 'Volver a ingresar';
           onPress = () async {
             await fp.clearAllAlert();
+            await fp.clearAllPages();
             log('al login');
             log('Context ${context.mounted}');
 

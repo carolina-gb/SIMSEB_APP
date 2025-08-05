@@ -48,23 +48,11 @@ class _FormLoginPageState extends State<FormLoginPage> {
         if (!userInformationResponse.error) {
           fp.setRegisterUserName(
               '${userInformationResponse.data?.fullName ?? ''}');
-          fp.setRegisterEmail(
-              userInformationResponse.data?.email ?? '');
+          fp.setRegisterEmail(userInformationResponse.data?.email ?? '');
 
           GlobalHelper.navigateToPageRemove(context, '/home');
           // }
         }
-      } else {
-        final keylogin = GlobalHelper.genKey();
-        fp.showAlert(
-            key: keylogin,
-            content: AlertGeneric(
-                content: WarningAlert(
-              keyToClose: keylogin,
-              title: 'Campos Incompletos',
-              message:
-                  'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
-            )));
       }
     }
   }
@@ -118,10 +106,7 @@ class _FormLoginPageState extends State<FormLoginPage> {
                     ),
                     inputFormatters: [
                       TextInputFormatter.withFunction((oldValue, newValue) {
-                        return newValue.copyWith(
-                          text: newValue.text
-                              .toLowerCase(), // Convertir a minúsculas
-                        );
+                        return newValue.copyWith(text: newValue.text);
                       })
                     ],
                     validator: (value) {

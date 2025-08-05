@@ -30,9 +30,12 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
     GeneralResponse profileResponse = await userService.getProfile(context);
     if (!profileResponse.error) {
       // Setear todos los controladores
-      controller.nameController.text = profileResponse.data.data[0].fullName ?? '';
-      controller.identificationController.text = profileResponse.data.data[0].identification ?? '';
-      controller.correoController.text = profileResponse.data.data[0].email ?? '';
+      controller.nameController.text =
+          profileResponse.data.data[0].fullName ?? '';
+      controller.identificationController.text =
+          profileResponse.data.data[0].identification ?? '';
+      controller.correoController.text =
+          profileResponse.data.data[0].email ?? '';
     }
 
     if (!controller.profileFormIsNotEmpty()) {
@@ -48,6 +51,56 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
           ),
         ),
       );
+    }
+  }
+
+  Future<void> _tryChangePassword() async {
+    final password = controller.passwordController.text;
+    final confirmPassword = controller.newPasswordController.text;
+    if (password.isEmpty || confirmPassword.isEmpty) {
+      final keylogin = GlobalHelper.genKey();
+      fp.showAlert(
+        key: keylogin,
+        content: AlertGeneric(
+          content: WarningAlert(
+            keyToClose: keylogin,
+            title: 'Campos Incompletos',
+            message:
+                'No puedes dejar campos vacíos. Por favor, llena todos los campos para acceder.',
+          ),
+        ),
+      );
+    } else if (password == confirmPassword) {
+      final keylogin = GlobalHelper.genKey();
+      fp.showAlert(
+        key: keylogin,
+        content: AlertGeneric(
+          content: WarningAlert(
+            keyToClose: keylogin,
+            title: 'Campos repetidos',
+            message: 'Por favor, ingresa una contraseña nueva.',
+          ),
+        ),
+      );
+    } else {
+      GeneralResponse response = await userService.changePassword(
+          context,
+          controller.passwordController.text,
+          controller.newPasswordController.text);
+      if (!response.error) {
+        final keylogin = GlobalHelper.genKey();
+        fp.showAlert(
+          key: keylogin,
+          content: AlertGeneric(
+            content: SuccessInformation(
+              keyToClose: keylogin,
+              message: response.message,
+            ),
+          ),
+        );
+        controller.passwordController.clear();
+        controller.newPasswordController.clear();
+      }
     }
   }
 
@@ -69,92 +122,92 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildLabel(size, "Nombres Completos"),
-            _buildTextField(
-              controller.nameController,
-              'Nombres completos',
-              TextInputType.name,
-              false
-            ),
-            _buildLabel(size, "Identificación"),
-            _buildTextField(
-              controller.identificationController,
-              'Identificación',
-              TextInputType.number,
-              false
-            ),
-            _buildLabel(size, "Correo"),
-            _buildTextField(
-              controller.correoController,
-              'Correo',
-              TextInputType.emailAddress,
-              false
-            ),
-            _buildLabel(size, "Contraseña Antigua"),
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0.01),
-              child: TextFormFieldWidget(
-                hintText: 'Contraseña',
-                fontSize: null,
-                fillColor: AppTheme.gray2,
-                fontWeightHintText: FontWeight.w500,
-                obscureText: controller.showPassWord,
-                keyboardType: TextInputType.visiblePassword,
-                textInputAction: TextInputAction.next,
-                controller: controller.passwordController,
-                inputFormatters: [
-                  FilteringTextInputFormatter.deny(RegExp(r"\s")),
-                ],
-                suffixIcon: TextButton(
+            _buildLabel(size: size, title: "Nombres Completos"),
+            _buildTextField(controller.nameController, 'Nombres completos',
+                TextInputType.name, false),
+            _buildLabel(size: size, title: "Identificación"),
+            _buildTextField(controller.identificationController,
+                'Identificación', TextInputType.number, false),
+            _buildLabel(size: size, title: "Correo"),
+            _buildTextField(controller.correoController, 'Correo',
+                TextInputType.emailAddress, false),
+            _buildLabel(
+                size: size * 2, title: "Cambiar Contraseña", fontSize: 24),
+            _buildLabel(size: size, title: "Contraseña Actual"),
+            TextFormFieldWidget(
+              hintText: 'Ingrese su contraseña actual',
+              fontSize: null,
+              fillColor: AppTheme.gray2,
+              fontWeightHintText: FontWeight.w500,
+              obscureText: controller.showPassWord,
+              keyboardType: TextInputType.name,
+              textInputAction: TextInputAction.next,
+              controller: controller.passwordController,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r"\s")),
+              ],
+              suffixIcon: TextButton(
                   onPressed: () {
                     setState(() {
                       controller.showPassWord = !controller.showPassWord;
                     });
                   },
-                  child: Icon(
-                    controller.showPassWord
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) return 'El campo no puede estar vacío';
-                  return null;
-                },
-              ),
+                  child: controller.showPassWord
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off)),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'El campo no puede estar vacio';
+                }
+                return null;
+              },
             ),
-            _buildLabel(size, "Contraseña Nueva"),
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0.01),
-              child: TextFormFieldWidget(
-                hintText: 'Contraseña nueva',
-                fontSize: null,
-                fillColor: AppTheme.gray2,
-                fontWeightHintText: FontWeight.w500,
-                obscureText: controller.showNewPassWord,
-                keyboardType: TextInputType.visiblePassword,
-                textInputAction: TextInputAction.next,
-                controller: controller.newPasswordController,
-                inputFormatters: [
-                  FilteringTextInputFormatter.deny(RegExp(r"\s")),
-                ],
-                suffixIcon: TextButton(
+            _buildLabel(size: size, title: "Contraseña Nueva"),
+            TextFormFieldWidget(
+              hintText: 'Ingrese su nueva contraseña',
+              fontSize: null,
+              fillColor: AppTheme.gray2,
+              fontWeightHintText: FontWeight.w500,
+              obscureText: controller.showNewPassWord,
+              keyboardType: TextInputType.name,
+              textInputAction: TextInputAction.next,
+              controller: controller.newPasswordController,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r"\s")),
+              ],
+              suffixIcon: TextButton(
                   onPressed: () {
                     setState(() {
                       controller.showNewPassWord = !controller.showNewPassWord;
                     });
                   },
-                  child: Icon(
-                    controller.showNewPassWord
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) return 'El campo no puede estar vacío';
-                  return null;
-                },
-              ),
+                  child: controller.showNewPassWord
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off)),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'El campo no puede estar vacío';
+                }
+
+                final trimmed = value.trim();
+
+                if (trimmed.length < 8) {
+                  return 'Debe tener al menos 8 caracteres';
+                }
+
+                if (!RegExp(r'[A-Z]').hasMatch(trimmed)) {
+                  return 'Debe contener al menos una letra mayúscula';
+                }
+
+                if (!RegExp(r'[0-9]').hasMatch(trimmed)) {
+                  return 'Debe contener al menos un número';
+                }
+
+                if (!RegExp(r'[!@#\$&*~%^(),.?":{}|<>]').hasMatch(trimmed)) {
+                  return 'Debe contener al menos un caracter especial';
+                }
+                return null;
+              },
             ),
             Align(
               alignment: Alignment.center,
@@ -165,9 +218,9 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                   width: size.width * 0.3,
                   text: 'Guardar',
                   onPressed: () {
-                    if (controller.profileFormController.currentState!.validate()) {
-                      // Aquí puedes guardar
-                      print('Todo validado loco!');
+                    if (controller.profileFormController.currentState!
+                        .validate()) {
+                      _tryChangePassword();
                     }
                   },
                 ),
@@ -179,19 +232,19 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
     );
   }
 
-  Padding _buildLabel(Size size, String title) {
+  Padding _buildLabel(
+      {required Size size, required String title, double? fontSize = 14}) {
     return Padding(
       padding: EdgeInsets.only(top: size.height * 0.02),
-      child: TextWidget(title: title),
+      child: TextWidget(
+        title: title,
+        fontSize: fontSize,
+      ),
     );
   }
 
-  Padding _buildTextField(
-    TextEditingController controller,
-    String hintText,
-    TextInputType type,
-    bool isEditable
-  ) {
+  Padding _buildTextField(TextEditingController controller, String hintText,
+      TextInputType type, bool isEditable) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: TextFormFieldWidget(
@@ -206,7 +259,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
         inputFormatters: [
           TextInputFormatter.withFunction((oldValue, newValue) {
             return newValue.copyWith(
-              text: newValue.text.toLowerCase(),
+              text: newValue.text,
             );
           }),
         ],

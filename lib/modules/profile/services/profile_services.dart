@@ -8,12 +8,8 @@ import 'package:fluttertest/shared/models/general_response.dart';
 
 class UserService {
   final InterceptorHttp _interceptorHttp = InterceptorHttp();
-
-  /// Envía un POST /Emergency devolviendo un [GeneralResponse]<[EmergencyResponse]>.
-  ///
-  /// - [request]  → el body `{ "typeId": ... }`.
-  /// - [context]  → para mostrar loaders/toasts igual que en `LoginService`.
-  Future<GeneralResponse<UsersResponse>> getProfile(BuildContext context) async {
+  Future<GeneralResponse<UsersResponse>> getProfile(
+      BuildContext context) async {
     const String url = '/User/get/by-id';
 
     final userInfo = await TokenHelper.getUserInfoFromToken();
@@ -56,6 +52,49 @@ class UserService {
 
       return GeneralResponse(
         message: 'Error al crear la emergencia',
+        error: true,
+      );
+    }
+  }
+
+  Future<GeneralResponse<UsersResponse>> changePassword(
+      BuildContext context, String oldPassword, String newPassword) async {
+    const String url = '/UserManagement/change-password';
+
+    Map<String, dynamic> body = {
+      'currentPassword': oldPassword,
+      'newPassword': newPassword
+    };
+
+    try {
+      final GeneralResponse resp = await _interceptorHttp.request(
+        context,
+        'POST',
+        url,
+        body,
+        showLoading: true,
+      );
+
+      if (!resp.error) {
+        return GeneralResponse(
+        message: resp.message,
+        error: resp.error,
+        data: null,
+      );
+      }
+
+      return GeneralResponse(
+        message: resp.message,
+        error: resp.error,
+        data: null,
+      );
+    } catch (e, stacktrace) {
+      // Log simple; puedes cambiar a GlobalHelper.logger.e si lo prefieres.
+      debugPrint('❌ Error al cambiar la contraseña: $e');
+      debugPrint('📍 Stacktrace: $stacktrace');
+
+      return GeneralResponse(
+        message: 'Error al cambiar la contraseña',
         error: true,
       );
     }
