@@ -12,7 +12,6 @@ import 'package:fluttertest/shared/widgets/alert_template.dart';
 import 'package:fluttertest/shared/widgets/filled_button.dart';
 import 'package:fluttertest/shared/widgets/text.dart';
 import 'package:fluttertest/shared/widgets/text_form_field_widget.dart';
-import 'package:fluttertest/shared/widgets/title.dart';
 import 'package:provider/provider.dart';
 
 class ProfileFormWidget extends StatefulWidget {
@@ -32,9 +31,8 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
     if (!profileResponse.error) {
       // Setear todos los controladores
       controller.nameController.text = profileResponse.data.data[0].fullName ?? '';
-      // controller.directionController.text = profileResponse.data.data[0].direccion ?? '';
+      controller.identificationController.text = profileResponse.data.data[0].identification ?? '';
       controller.correoController.text = profileResponse.data.data[0].email ?? '';
-      controller.passwordController.text = profileResponse.data.data[0].password ?? ''; // solo si es necesario
     }
 
     if (!controller.profileFormIsNotEmpty()) {
@@ -76,20 +74,23 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
               controller.nameController,
               'Nombres completos',
               TextInputType.name,
+              false
             ),
-            _buildLabel(size, "Dirección"),
+            _buildLabel(size, "Identificación"),
             _buildTextField(
-              controller.directionController,
-              'Dirección',
-              TextInputType.streetAddress,
+              controller.identificationController,
+              'Identificación',
+              TextInputType.number,
+              false
             ),
             _buildLabel(size, "Correo"),
             _buildTextField(
               controller.correoController,
               'Correo',
               TextInputType.emailAddress,
+              false
             ),
-            _buildLabel(size, "Contraseña"),
+            _buildLabel(size, "Contraseña Antigua"),
             Padding(
               padding: EdgeInsets.only(top: size.height * 0.01),
               child: TextFormFieldWidget(
@@ -112,6 +113,39 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                   },
                   child: Icon(
                     controller.showPassWord
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) return 'El campo no puede estar vacío';
+                  return null;
+                },
+              ),
+            ),
+            _buildLabel(size, "Contraseña Nueva"),
+            Padding(
+              padding: EdgeInsets.only(top: size.height * 0.01),
+              child: TextFormFieldWidget(
+                hintText: 'Contraseña nueva',
+                fontSize: null,
+                fillColor: AppTheme.gray2,
+                fontWeightHintText: FontWeight.w500,
+                obscureText: controller.showNewPassWord,
+                keyboardType: TextInputType.visiblePassword,
+                textInputAction: TextInputAction.next,
+                controller: controller.newPasswordController,
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r"\s")),
+                ],
+                suffixIcon: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      controller.showNewPassWord = !controller.showNewPassWord;
+                    });
+                  },
+                  child: Icon(
+                    controller.showNewPassWord
                         ? Icons.visibility
                         : Icons.visibility_off,
                   ),
@@ -156,6 +190,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
     TextEditingController controller,
     String hintText,
     TextInputType type,
+    bool isEditable
   ) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
@@ -164,6 +199,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
         fontSize: null,
         fontWeightHintText: FontWeight.w500,
         keyboardType: type,
+        enabled: isEditable,
         textInputAction: TextInputAction.next,
         controller: controller,
         fillColor: AppTheme.gray2,

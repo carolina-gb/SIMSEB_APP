@@ -105,6 +105,7 @@ class _NewRequestFormWidgetState extends State<NewRequestFormWidget> {
     'Seleccione…': 0, // opcional, para placeholder
     'Ruido': 1,
     'Suciedad': 2,
+    'Seguridad': 3,
   };
 
   @override

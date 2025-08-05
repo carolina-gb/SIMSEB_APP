@@ -4,16 +4,17 @@ class ProfileFormController {
 
   final profileFormController = GlobalKey<FormState>();
   bool showPassWord = false;
+  bool showNewPassWord = false;
   TextEditingController nameController = TextEditingController();
-  TextEditingController directionController = TextEditingController();
+  TextEditingController identificationController = TextEditingController();
   TextEditingController correoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
 
 
   bool profileFormIsNotEmpty() {
     return nameController.text.trim().isNotEmpty &&
-        directionController.text.trim().isNotEmpty &&
-        correoController.text.trim().isNotEmpty &&
-        passwordController.text.trim().isNotEmpty;
+        identificationController.text.trim().isNotEmpty &&
+        correoController.text.trim().isNotEmpty;
   }
 }
