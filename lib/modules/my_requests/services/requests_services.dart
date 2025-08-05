@@ -1,17 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertest/modules/my_requests/models/responses/requests_response.dart';
-import 'package:fluttertest/modules/sos/models/response/emergency_response.dart';
 import 'package:fluttertest/shared/services/http_interceptor.dart';
 import 'package:fluttertest/shared/models/general_response.dart';
 
 class RequestsService {
   final InterceptorHttp _interceptorHttp = InterceptorHttp();
-
-  /// Envía un POST /Emergency devolviendo un [GeneralResponse]<[EmergencyResponse]>.
-  ///
-  /// - [request]  → el body `{ "typeId": ... }`.
-  /// - [context]  → para mostrar loaders/toasts igual que en `LoginService`.
   Future<GeneralResponse<ReportsResponse>> getAll(BuildContext context) async {
     const String url = '/Report/all';
 

@@ -26,7 +26,10 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
   @override
   void initState() {
     super.initState();
-    _tryGetAllReports(); // no necesitas asignar aquí
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _tryGetAllReports();
+      setState(() {});
+    });
   }
 
   Future<void> _tryGetAllReports() async {
@@ -57,7 +60,6 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
 
     setState(() {
       _filteredRequests = _allRequests.where((req) {
-        // Puedes cambiar a la extensión `searchable` si la agregaste
         return req
             .toJson()
             .values

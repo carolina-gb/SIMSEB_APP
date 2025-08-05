@@ -184,7 +184,7 @@ class _MainLayoutState extends State<MainLayout> {
               )
             : null,
         child: Scaffold(
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: false,
           backgroundColor:
               widget.isSosPage! ? AppTheme.transparent : AppTheme.white,
           body: Stack(
