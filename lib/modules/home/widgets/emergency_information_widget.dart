@@ -46,7 +46,7 @@ class _EmergencyInformationWidgetState
               ],
             ),
           ),
-          Image.asset(AppTheme.imageInformationWidget)
+          Image.asset(AppTheme.imageInformationWidget, fit: BoxFit.contain, width: size.height * 0.15,)
         ],
       ),
     );

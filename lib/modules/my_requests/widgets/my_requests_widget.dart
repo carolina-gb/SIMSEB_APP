@@ -103,7 +103,7 @@ class _MyRequestsWidgetState extends State<MyRequestsWidget> {
             ),
           ),
           SizedBox(
-              height: size.height,
+              height: size.height * 0.68,
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
